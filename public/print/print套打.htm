@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>WEB打印控件LODOP的套打</title>
+
+<script language="javascript" src="LodopFuncs.js"></script>
+</head>
+<body>
+
+<h2><b><font color="#009999">演示打印设计套打BarCode:</font></b></h2>
+<a href="JavaScript:Preview1()">打印预览</a>&nbsp;&nbsp;&nbsp;<a href="javascript:Design1()">打印设计</a>&nbsp;&nbsp;&nbsp;<a href="JavaScript:RealPrint()">直接打印</a>
+
+</p>
+<script language="javascript" type="text/javascript">
+        var LODOP; //声明为全局变量   
+	function Preview1() {		
+		CreateFullBill();
+	  	LODOP.PREVIEW();		
+	};
+	function Design1() {		
+		CreateFullBill();
+//		LODOP.SET_SHOW_MODE("HIDE_ITEM_LIST",true);//设置对象列表默认处于关闭状态
+//		LODOP.SET_SHOW_MODE("TEXT_SHOW_BORDER",1); //设置字符编辑框默认为single	
+		LODOP.PRINT_DESIGN();		
+	};
+	function Preview2() {		
+		CreateDataBill();
+	  	LODOP.PREVIEW();		
+	};			
+	function Setup2() {		
+		CreateDataBill();
+		LODOP.PRINT_SETUP();		
+	};
+	function Design2() {	
+		LODOP.PRINT_DESIGN();
+	};	
+	function RealPrint() {
+		CreateDataBill();
+		//云打印C-Lodop返回结果用回调函数:
+		if (LODOP.CVERSION) {
+			CLODOP.On_Return=function(TaskID,Value){ if (Value) alert("已发出实际打印命令！"); else alert("放弃打印！"); };
+			LODOP.PRINTA();
+			return;
+		};
+		//控件返回结果用语句本身：
+		if (LODOP.PRINTA()) 
+		   alert("已发出实际打印命令！"); 
+		else 
+		   alert("放弃打印！"); 
+	};	
+	function CreateFullBill() {
+	
+		LODOP=getLodop();  
+		LODOP.PRINT_INITA(10,10,285,146,"打印控件功能演示_Lodop功能_BarCode套打");
+		LODOP.ADD_PRINT_BARCODE(48,26,250,86,"EAN128C","值);
+		LODOP.SET_PRINT_STYLEA(0,"AlignJustify",2);
+		LODOP.ADD_PRINT_TEXT(7,82,130,35,"文本");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",18);
+};	
+function CreateDataBill() {
+		LODOP=getLodop();  
+		LODOP.PRINT_INITA(10,10,285,146,"打印控件功能演示_Lodop功能_BarCode套打");
+		LODOP.ADD_PRINT_BARCODE(48,26,250,86,"EAN128C","K123456789012");
+		LODOP.SET_PRINT_STYLEA(0,"AlignJustify",2);
+		LODOP.ADD_PRINT_TEXT(7,82,130,35,"7寸洋娃娃2222");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",18);
+}
+</script> 
+</body>
+</html>

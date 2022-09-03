@@ -1,0 +1,50 @@
+{
+  "name": "vue-manage-system",
+  "version": "5.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vite preview",
+    "build": "vite build",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.0.4",
+    "axios": "^0.21.4",
+    "element-plus": "1.0.2-beta.52",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
+    "js-table2excel": "^1.0.3",
+    "jsbarcode": "^3.11.5",
+    "jspdf": "^2.5.1",
+    "mitt": "^3.0.0",
+    "node-sass": "^7.0.1",
+    "print-js": "^1.6.0",
+    "qs": "^6.10.1",
+    "sass": "^1.52.3",
+    "sass-loader": "^13.0.0",
+    "vue": "^3.2.37",
+    "vue-cropperjs": "^5.0.0",
+    "vue-draggable-next": "^2.1.1",
+    "vue-i18n": "^9.0.0",
+    "vue-router": "^4.0.10",
+    "vue-schart": "^2.0.0",
+    "vue3-print-nb": "^0.1.4",
+    "vuedraggable": "^2.24.3",
+    "vuex": "^4.0.2",
+    "wangeditor": "^4.7.4",
+    "xlsx": "^0.17.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.3",
+    "@vue/compiler-sfc": "^3.1.2",
+    "jquery": "^3.6.0",
+    "style-resources-loader": "^1.4.1",
+    "vite": "2.3.7",
+    "vue-cli-plugin-style-resources-loader": "~0.1.5"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
