@@ -1313,9 +1313,9 @@
     height: 10px;
   }
   .el-table .caret-wrapper .sort-caret.ascending {
-    border-bottom-color: #ffffff;
+    border-bottom-color: #e8e8e8;
   }
   .el-table .caret-wrapper .sort-caret.descending {
-    border-top-color: #ffffff;
+    border-top-color: #e8e8e8;
   }
 </style>
