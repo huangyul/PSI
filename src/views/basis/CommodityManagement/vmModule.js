@@ -38,6 +38,8 @@ export default {
       printDialogVisible: false,
       printTableData: [],
       BarCodeTemplate: '',
+      orderField: '', // 排序字段 统一小写
+      orderType: '', // 排序方式：desc、asc两者之一
     }
   },
   methods: {
@@ -66,6 +68,10 @@ export default {
         orgId +
         '&activeStatus=' +
         activeStatus +
+        '&orderField=' +
+        this.orderField +
+        '&orderType=' +
+        this.orderType +
         '&page=' +
         page +
         '&pageSize=' +
@@ -530,6 +536,22 @@ export default {
         LODOP.PRINT()
         this.printDialogVisible = false
       }
+    },
+
+    // 表格排序方法
+    onSortChange({ column, prop, order }) {
+      if (prop) {
+        if (order == 'ascending') {
+          this.orderType = 'asc'
+        } else if (order == 'descending') {
+          this.orderType = 'desc'
+        }
+        this.orderField = prop.toLowerCase()
+      } else {
+        this.orderField = ''
+        this.orderType = ''
+      }
+      this.eventSearch()
     },
   },
   mounted() {

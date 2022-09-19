@@ -118,11 +118,17 @@
         style="width: 100%"
         height="100%"
         @selection-change="eventTableSelect"
+        @sort-change="onSortChange"
         :row-class-name="funcRowClassName"
       >
         <el-table-column type="selection" width="55" align="center">
         </el-table-column>
-        <el-table-column prop="Mat_No" label="商品编号" width="120">
+        <el-table-column
+          prop="Mat_No"
+          label="商品编号"
+          width="120"
+          sortable="custom"
+        >
           <template #default="scope">
             <span
               v-show="permissionsList.Edit"
@@ -147,21 +153,55 @@
         <!-- <el-table-column prop="Id" label="ID"> </el-table-column> -->
         <el-table-column prop="Mat_Name" label="商品名称" width="240">
         </el-table-column>
-        <el-table-column prop="MatTypeName" label="商品类别" width="90">
+        <el-table-column
+          prop="MatTypeName"
+          label="商品类别"
+          width="110"
+          sortable="custom"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="PriceByTax"
+          label="单价(含税)"
+          width="170"
+          align="right"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="Price"
+          label="单价(不含税)"
+          width="170"
+          align="right"
+        >
         </el-table-column>
         <el-table-column prop="OrderNum" label="下单数量" align="right">
         </el-table-column>
         <el-table-column prop="Unit_Name" label="单位"> </el-table-column>
-        <el-table-column prop="Status" label="状态">
+        <el-table-column prop="Status" label="状态" sortable="custom">
           <template #default="scope">
             <span v-if="scope.row.Status == 1" class="StatusGreen">启用</span>
             <span v-if="scope.row.Status == 0" class="StatusRed">停用</span>
           </template>
         </el-table-column>
-        <el-table-column prop="Modifier" label="最后修改人" min-width="180">
+        <el-table-column
+          prop="CreateTime"
+          label="商品生成时间"
+          min-width="170"
+          sortable="custom"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="Creater"
+          label="商品生成人"
+          min-width="180"
+          sortable="custom"
+        >
         </el-table-column>
         <el-table-column prop="ModifyTime" label="最后修改时间" min-width="170">
         </el-table-column>
+        <el-table-column prop="Modifier" label="最后修改人" min-width="180">
+        </el-table-column>
+
         <el-table-column prop="Summary" label="备注" width="280">
         </el-table-column>
       </el-table>

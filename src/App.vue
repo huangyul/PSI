@@ -1312,4 +1312,10 @@
   body *::-webkit-scrollbar {
     height: 10px;
   }
+  .el-table .caret-wrapper .sort-caret.ascending {
+    border-bottom-color: #ffffff;
+  }
+  .el-table .caret-wrapper .sort-caret.descending {
+    border-top-color: #ffffff;
+  }
 </style>
