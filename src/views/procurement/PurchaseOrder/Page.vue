@@ -1043,6 +1043,7 @@
       padding: 10px 30px;
       cursor: pointer;
       user-select: none;
+      margin-bottom: 16px;
     }
     .btn-disable {
       opacity: 0.6;

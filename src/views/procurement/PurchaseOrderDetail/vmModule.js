@@ -184,14 +184,14 @@ export default {
         for (var item of this.tableDeteleData) {
           if (![1, 2].includes(item.Status) && status == 4) {
             ElMessage.warning({
-              message: '只有状态为已下单才能订单终止',
+              message: '只有状态为已下单或发货中才能订单终止',
               type: 'warning',
             })
             return
           }
-          if (item.Status != '4' && status == 1) {
+          if (![3, 4].includes(item.Status) && status == 1) {
             ElMessage.warning({
-              message: '只有状态为已完成才能订单撤销',
+              message: '只有状态为已完成或已发货才能订单撤销',
               type: 'warning',
             })
             return
