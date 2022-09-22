@@ -291,6 +291,16 @@
             style="width: 100%"
             :row-class-name="funcRowClassName"
           >
+            <el-table-column label="操作" fixed="left" width="50">
+              <template #default="scope">
+                <div class="tableButtonBox">
+                  <i
+                    class="delete"
+                    @click="eventDeleteDetails(scope.$index, scope.row)"
+                  ></i>
+                </div>
+              </template>
+            </el-table-column>
             <el-table-column
               prop="ProductCode"
               label="商品编号"
@@ -370,16 +380,6 @@
               </template>
             </el-table-column>
             <el-table-column prop="Remark" label="备注" min-width="280">
-            </el-table-column>
-            <el-table-column label="操作">
-              <template #default="scope">
-                <div class="tableButtonBox">
-                  <i
-                    class="delete"
-                    @click="eventDeleteDetails(scope.$index, scope.row)"
-                  ></i>
-                </div>
-              </template>
             </el-table-column>
           </el-table>
         </div>
@@ -567,9 +567,73 @@
         </span>
       </template>
     </el-dialog>
+
+    <div class="wx-tips">
+      <!-- 温馨提示弹窗 -->
+      <el-dialog v-model="tipDialogShow" :width="400">
+        <div class="dialog-body">
+          <div class="title">
+            <img src="../../../assets/img/purchase/warning.png" />
+            <div class="text">保存失败</div>
+          </div>
+          <div class="content">
+            “商品名称商品名称”商品已有待处理或处理中的 申购计划<span
+              class="blue-text"
+              >{{ repeatPurchaseOrderNum }}</span
+            >，不能重复添加哦！
+          </div>
+          <div class="btn" @click="tipDialogShow = false">知道了</div>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script src="./vmModule.js"></script>
 
-<style scoped></style>
+<style scoped lang="scss">
+  .dialog-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .title {
+      display: flex;
+      align-items: center;
+      .text {
+        margin-left: 11px;
+        font-size: 16px;
+        font-family: Microsoft YaHei;
+        font-weight: bold;
+        color: #2d323c;
+      }
+    }
+
+    .content {
+      width: 340px;
+      background: #ffffff;
+      margin-top: 17px;
+      margin-bottom: 20px;
+      padding: 15px;
+      font-size: 14px;
+      font-family: Microsoft YaHei;
+      font-weight: 400;
+      color: #2d323c;
+      line-height: 24px;
+      .blue-text {
+        color: #428feb;
+      }
+    }
+    .btn {
+      background: #579ff6;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: Microsoft YaHei;
+      font-weight: bold;
+      color: #ffffff;
+      padding: 11px 38px;
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 30px;
+    }
+  }
+</style>

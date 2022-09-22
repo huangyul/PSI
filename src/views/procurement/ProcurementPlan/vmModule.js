@@ -2,8 +2,9 @@ import $ from 'jquery'
 import procurement from '../../../api/procurementApi.js'
 import basis from '../../../api/basisApi.js'
 import func from '../../func.js'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import RangeDateVue from '../../../components/rangeDate.vue'
+import { h } from 'vue'
 export default {
   components: { RangeDateVue },
   name: 'ProcurementPlan',
@@ -58,6 +59,8 @@ export default {
       CategoryTree: [],
       shopList: [],
       isEditShopName: false,
+      tipDialogShow: false,
+      errMessage: '', // 提示弹窗重复的采购单编号
     }
   },
   methods: {
@@ -554,10 +557,63 @@ export default {
           })
           .catch((err) => {
             loading.close()
-            ElMessage.warning({
-              message: err,
-              type: 'warning',
-            })
+            this.$store.commit('clearNotification')
+            if (err.includes('商品已有待处理或处理中的申购计划')) {
+              // this.errMessage = err.match(/\((.+?)\)/g)[0]
+              this.errMessage = []
+              let arr = err.split('，')[1].split(' ')
+              arr.forEach((i) => {
+                if (i.length > 0) {
+                  this.errMessage.push({
+                    productName: i.match(/“(.+?)”/g)[0],
+                    OrderNum: i.match(/\((.+?)\)/g)[0],
+                  })
+                }
+              })
+              this.errMessage.forEach((e) => {
+                setTimeout(() => {
+                  let notification = ElNotification({
+                    title: '保存失败',
+                    // <div>xxxxxx<span>xxxx</span>xxxxxxxx</div>
+                    message: h('div', { style: 'word-break: break-all;' }, [
+                      h(
+                        'span',
+                        `${e.productName}商品已有待处理或处理中的采购计划`
+                      ),
+                      h(
+                        'span',
+                        {
+                          style:
+                            'cursor: pointer; color: #428feb;text-decoration:underline',
+                          onclick: () => {
+                            const no = e.OrderNum.match(/[0-9a-zA-Z]/g).join('')
+                            // 关闭所有弹窗
+                            this.dialogVisibleScanQRCodes = false
+                            this.tipDialogShow = false
+                            this.dialogVisibleProduct = false
+                            this.dialogVisible = false
+                            this.searchForm.PlanCode = no
+                            this.eventSearch()
+                            notification.close()
+                          },
+                        },
+                        e.OrderNum
+                      ),
+                      h('span', '，不能重复添加哦'),
+                    ]),
+                    duration: 0,
+                    type: 'warning',
+                  })
+                  this.$store.commit('addNotification', notification)
+                })
+              }, 0)
+              console.log(this.$store.state.notificationList)
+            } else {
+              ElMessage.warning({
+                message: err,
+                type: 'warning',
+              })
+            }
           })
       } else if (this.OpenWindowTitle == '编辑') {
         var params = JSON.parse(JSON.stringify(this.addForm))
@@ -602,7 +658,6 @@ export default {
     },
     //打开增加商品弹窗
     eventOpenProductWindow() {
-      // TODO
       this.productTableDeteleData = []
       if (!this.productSearchForm.shopInfo) {
         ElMessage.warning({
@@ -775,7 +830,6 @@ export default {
           this.$axios
             .post(urlSuccess, params)
             .then((res) => {
-              //console.log(res);return;
               if (res.data.Success) {
                 if (typeof res.data.data == 'string') {
                   //文件流

@@ -131,7 +131,7 @@
         <button
           class="search"
           v-show="permissionsList.Query"
-          @click="eventSearch"
+          @click="eventSearch()"
         >
           查询
         </button>
@@ -148,13 +148,21 @@
         style="width: 100%"
         height="100%"
         @selection-change="eventTableSelect"
+        @sort-change="onSortChange"
+        :summary-method="getSummaries"
+        show-summary
         :row-class-name="funcRowClassName"
-        :span-method="funcObjectSpanMethod"
+        :span-method="funcObjectSpanMethod1"
         :cell-style="funcColumnStyle"
       >
         <el-table-column type="selection" width="55" align="center">
         </el-table-column>
-        <el-table-column prop="OrderCode" label="采购单编号" min-width="180">
+        <el-table-column
+          prop="OrderCode"
+          label="采购单编号"
+          min-width="180"
+          sortable="custom"
+        >
           <template #default="scope">
             <span
               :class="{
@@ -174,9 +182,15 @@
         <el-table-column
           prop="ShopName"
           label="门店名称"
+          sortable="custom"
           width="230"
         ></el-table-column>
-        <el-table-column prop="ProductName" label="商品名称" width="240">
+        <el-table-column
+          prop="ProductName"
+          label="商品名称"
+          width="240"
+          sortable="custom"
+        >
         </el-table-column>
         <el-table-column prop="UnitName" label="单位" width="50">
         </el-table-column>
@@ -319,33 +333,12 @@
 						</div>
 					</div> -->
         </div>
-        <div class="topBtnBox">
+        <div class="topBtnBox" style="border-bottom: none">
           <div class="titleBox">
             <div class="mark"></div>
             <span>商品信息</span>
           </div>
-          <!-- <div class="shopTip">
-            <i class="el-icon-warning-outline"></i>
-            <span
-              >仅可添加已有采购计划的商品，所选商品必须为同一个门店的商品</span
-            >
-          </div> -->
           <span class="flex"></span>
-          <!-- <span>门店：</span>
-          <div class="regular" style="margin-right: 15px">
-            <el-select
-              v-model="productShopInfo"
-              filterable
-              :disabled="supplierIsdisabled"
-            >
-              <el-option
-                :label="item.Name"
-                :value="item.Code"
-                v-for="item in shopList"
-                :key="item.Code"
-              ></el-option>
-            </el-select>
-          </div> -->
           <span>供应商：</span>
           <div class="regular" style="margin-right: 15px">
             <el-select
@@ -361,21 +354,6 @@
               ></el-option>
             </el-select>
           </div>
-          <!-- <span>供应商：</span>
-          <div class="regular" style="margin-right: 15px">
-            <el-select
-              v-model="addForm.SupplierCode"
-              filterable
-              :disabled="supplierIsdisabled"
-            >
-              <el-option
-                :key="item.SupplierId"
-                :label="item.SupplierName"
-                :value="item.SupplierId"
-                v-for="item in supplierList"
-              ></el-option>
-            </el-select>
-          </div> -->
           <button
             class="blue_plain"
             @click="eventOpenProductWindow"
@@ -383,14 +361,21 @@
           >
             添加商品
           </button>
-          <!-- <button class="blue_plain" @click="dialogVisibleScanQRCodes = true">扫码录入</button> -->
+        </div>
+        <div class="shop-search">
+          <span>门店名称：</span>
+          <div class="inputBox remark">
+            <el-input v-model="dialogShopNameSearch"></el-input>
+          </div>
+          <!-- <button>查询</button> -->
         </div>
 
         <div class="middle haveBorderNoTop">
+          <!-- addForm.PSI_Purchase_Order_Ms -->
           <el-table
             stripe
             ref="multipleTable"
-            :data="addForm.PSI_Purchase_Order_Ms"
+            :data="tables"
             tooltip-effect="dark"
             height="300"
             style="width: 100%"
@@ -403,7 +388,12 @@
               label="商品编号"
               width="120"
             ></el-table-column>
-            <el-table-column prop="ProductName" label="商品名称" width="240">
+            <el-table-column
+              prop="ProductName"
+              label="商品名称"
+              width="240"
+              sortable
+            >
             </el-table-column>
             <el-table-column prop="UnitName" label="单位" width="50">
             </el-table-column>
@@ -428,7 +418,12 @@
                 ></el-input-number>
               </template>
             </el-table-column>
-            <el-table-column prop="ShopName" label="门店名称" width="240">
+            <el-table-column
+              prop="ShopName"
+              label="门店名称"
+              width="240"
+              sortable
+            >
             </el-table-column>
             <el-table-column
               prop="PriceByExcludingTax"
@@ -854,12 +849,46 @@
         </div>
       </template>
     </el-dialog>
+
+    <div class="wx-tips">
+      <!-- 温馨提示弹窗 -->
+      <el-dialog v-model="tipDialogShow" :width="400" @close="onTipDialogClose">
+        <div class="dialog-body">
+          <div class="title">
+            <img src="../../../assets/img/purchase/notice.png" />
+            <div class="text">温馨提示</div>
+          </div>
+          <div class="content">
+            <p>
+              您添加的采购商品中存在单价为<span class="red-font"> 0 </span
+              >、金额为<span class="red-font"> 0 </span
+              >的商品，请确认商品单价设置是否有误。如果有误，请重新设置正确，再创建订单。
+            </p>
+            <p>
+              <span class="red-font">商品一旦下单成功，订单无法修改</span
+              >，请确认清楚再 进行下单！
+            </p>
+          </div>
+          <div
+            :class="['btn', { 'btn-disable': countDown > 0 }]"
+            @click="onSavePurchase"
+          >
+            我已知晓，确认下单<span v-if="countDown > 0"
+              >({{ countDown }}s)</span
+            >
+          </div>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script src="./vmModule.js"></script>
 
 <style scoped lang="scss">
+  .el-dialog__header {
+    padding: 0;
+  }
   .all .searchBox > .conditions > .box > .inputBox.remark {
     width: 600px;
   }
@@ -942,6 +971,82 @@
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
+    }
+  }
+  .shop-search {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    input {
+      width: 200px;
+      margin-left: 10px;
+    }
+    button {
+      display: flex;
+      line-height: 1px;
+      align-items: center;
+      padding: 0 12px;
+      height: 28px;
+      border-radius: 4px;
+      background-color: #579ff6;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      margin-left: 10px;
+    }
+  }
+  .dialog-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .title {
+      display: flex;
+      align-items: center;
+      .text {
+        margin-left: 11px;
+        font-size: 16px;
+        font-family: Microsoft YaHei;
+        font-weight: bold;
+        color: #2d323c;
+      }
+    }
+
+    .content {
+      width: 340px;
+      background: #ffffff;
+      border: 1px solid #d9dbdd;
+      margin-top: 17px;
+      margin-bottom: 20px;
+      padding: 15px;
+      p {
+        font-size: 14px;
+        font-family: Microsoft YaHei;
+        color: #2d323c;
+      }
+      .red-font {
+        color: #ff5353;
+        font-weight: bold;
+      }
+      p:not(:last-child) {
+        margin-bottom: 24px;
+      }
+    }
+    .btn {
+      background: #579ff6;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: Microsoft YaHei;
+      font-weight: bold;
+      color: #ffffff;
+      padding: 10px 30px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn-disable {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
   }
 </style>

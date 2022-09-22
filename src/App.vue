@@ -1313,9 +1313,32 @@
     height: 10px;
   }
   .el-table .caret-wrapper .sort-caret.ascending {
-    border-bottom-color: #e8e8e8;
+    border-bottom-color: #6287b2;
   }
   .el-table .caret-wrapper .sort-caret.descending {
-    border-top-color: #e8e8e8;
+    border-top-color: #6287b2;
+  }
+  .el-table .ascending .sort-caret.ascending {
+    border-bottom-color: #2d323c !important;
+  }
+  .el-table .descending .sort-caret.descending {
+    border-top-color: #2d323c !important;
+  }
+  .all .wx-tips .el-dialog__headerbtn {
+    top: 10px;
+    right: 5px;
+  }
+  .all .wx-tips .el-dialog {
+    width: 400px;
+    /* height: 320px; */
+    background: #ffffff;
+    border-radius: 6px;
+  }
+  .all .wx-tips .el-dialog__header {
+    padding: 0;
+    display: none;
+  }
+  .all .wx-tips .el-overlay .el-dialog .el-dialog__body {
+    min-height: auto;
   }
 </style>

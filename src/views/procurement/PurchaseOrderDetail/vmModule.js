@@ -182,7 +182,7 @@ export default {
       } else {
         var ids = []
         for (var item of this.tableDeteleData) {
-          if (item.Status != '1' && status == 4) {
+          if (![1, 2].includes(item.Status) && status == 4) {
             ElMessage.warning({
               message: '只有状态为已下单才能订单终止',
               type: 'warning',

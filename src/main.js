@@ -62,10 +62,6 @@ axios.interceptors.response.use(
   },
   (error) => {
     if (!error.response) {
-      // ElMessage({
-      //   message: '登录过期，请重新登录',
-      //   type: 'error',
-      // })
       setTimeout(function () {
         if (localStorage.getItem('userType') == '3') {
           router.push('/login')
@@ -82,19 +78,8 @@ axios.interceptors.response.use(
             })
         }
       }, 3000)
-      // return Promise.reject('登录过期，请重新登录')
       return Promise.reject('VPN或网络异常，请尝试重连VPN或检查网络设置哦')
-      // if (localStorage.getItem("userType") == '3') {
-      // 	router.push("/login");
-      // } else {
-      // 	var url = './table.json'
-      // 	axios.get(url).then((res) => {
-      // 		window.location.href = 'http://' + res.data.yunhoutaiUrl;
-      // 		window.localStorage.clear();
-      // 	}).catch((err) => {
-      // 		ElMessage.warning({ message: err, type: 'warning', });
-      // 	});
-      // }
+
       return Promise.reject('网络不稳定，导致请求超时，请重新登录！')
     } else {
       if (!error.response.data) {
@@ -102,13 +87,6 @@ axios.interceptors.response.use(
       }
       return Promise.reject(error.response.data.message)
     }
-
-    // if (error.response.status === 401) {
-    // 	router.push("/login");
-    // 	return Promise.reject('身份验证已过期，请重新登录');
-    // }else{
-    // 	return Promise.reject(error.response.data.message);
-    // }
   }
 )
 
@@ -119,6 +97,10 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/') {
     next()
   } else {
+    // 如果离开采购计划单页面，把所有提示关闭
+    if (to.paht != '/ProcurementPlan') {
+      store.commit('clearNotification')
+    }
     if (
       localStorage.getItem('userType') == '3' &&
       !localStorage.getItem('Token') &&

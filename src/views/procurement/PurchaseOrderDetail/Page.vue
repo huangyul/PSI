@@ -155,6 +155,11 @@
             <span v-if="scope.row.Status == 5">已完结</span>
           </template>
         </el-table-column>
+        <el-table-column
+          prop="Remark"
+          label="备注"
+          width="170"
+        ></el-table-column>
         <el-table-column prop="Creater" label="创建人" width="170">
         </el-table-column>
         <el-table-column prop="CreateTime" label="创建时间" width="170">

@@ -12,6 +12,10 @@ export default {
   resolve: {
     alias: { '@': _resolve('src') },
   },
+  server: {
+    host: '0.0.0.0',
+    port: 3000,
+  },
   // server: {
   // 	// host: 'localhost', //target host
   // 	// port: 3000,

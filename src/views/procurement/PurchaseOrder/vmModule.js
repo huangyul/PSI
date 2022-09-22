@@ -100,14 +100,38 @@ export default {
       supplierList2: [],
       isImportDialog: false,
       fileList: [],
+      orderType: '',
+      orderField: '',
+      typeNameArr: [],
+      typeNamePos: 0,
+      tableSum: [],
+      dialogShopNameSearch: '', // 新建、编辑采购单弹窗门店名称搜索关键字
+      tipDialogShow: false,
+      countDown: 0,
+      timer: null,
     }
   },
   computed: {
     isViewBtn() {
       return this.tableDeteleData.length == 1 ? false : true
     },
+    tables() {
+      const search = this.dialogShopNameSearch
+      if (search) {
+        return this.addForm.PSI_Purchase_Order_Ms.filter((data) => {
+          return data.ShopName.includes(search)
+        })
+      } else {
+        return this.addForm.PSI_Purchase_Order_Ms
+      }
+    },
   },
   methods: {
+    merageInit() {
+      // 在下文的时候会用到，对数据进行初始化是很有必要的
+      this.typeNameArr = []
+      this.typeNamePos = 0
+    },
     funcGetTableData(
       shopInfo,
       startTime,
@@ -138,6 +162,10 @@ export default {
         shopCode +
         '&userType=' +
         userType +
+        '&orderModel=' +
+        this.orderType +
+        '&orderField=' +
+        this.orderField +
         '&page=' +
         page +
         '&pageSize=' +
@@ -153,8 +181,10 @@ export default {
         .then((res) => {
           this.tableData = res.data.Results
           this.total = res.data.TotalCount
+          this.tableSum = res.data.TjValues
           //给表格加rowspan来合并列
-          this.tableData = func.oneSetrowspans(this.tableData, 'OrderCode')
+          // this.tableData = func.oneSetrowspans(this.tableData, 'OrderCode')
+          this.merage()
           //console.log(this.tableData);
         })
         .catch((err) => {
@@ -163,6 +193,47 @@ export default {
             type: 'warning',
           })
         })
+    },
+    merage() {
+      this.merageInit() // 前文的初始化数据函数
+      for (let i = 0; i < this.tableData.length; i += 1) {
+        if (i === 0) {
+          // 第一行必须存在
+          this.typeNameArr.push(1)
+          this.typeNamePos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同,eg：this.typeNamePos 是 this.typeNameArr序号
+          // 第一列 下面的是eslint的不限制语法
+          // eslint-disable-next-line no-lonely-if
+          if (this.tableData[i].OrderCode === this.tableData[i - 1].OrderCode) {
+            this.typeNameArr[this.typeNamePos] += 1
+            this.typeNameArr.push(0)
+          } else {
+            this.typeNameArr.push(1)
+            this.typeNamePos = i
+          }
+        }
+      }
+    },
+    funcObjectSpanMethod1({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        // 第一列的合并方法
+        const row1 = this.typeNameArr[rowIndex]
+        const col1 = row1 > 0 ? 1 : 0 // 如果被合并了row = 0; 则他这个列需要取消
+        return {
+          rowspan: row1,
+          colspan: col1,
+        }
+      }
+      if (columnIndex === 1) {
+        // 第一列的合并方法
+        const row2 = this.typeNameArr[rowIndex]
+        const col2 = row2 > 0 ? 1 : 0 // 如果被合并了row = 0; 则他这个列需要取消
+        return {
+          rowspan: row2,
+          colspan: col2,
+        }
+      }
     },
     // 获取供应商列表
     getSupplierList() {
@@ -512,6 +583,24 @@ export default {
         return 'border-right:1px solid #ECEDEE;'
       }
     },
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 4) {
+          sums[index] = '合计'
+          return
+        } else if (index === 6) {
+          sums[index] = this.tableSum[0]
+          return
+        } else if (index === 8) {
+          sums[index] = this.tableSum[1]
+          return
+        }
+      })
+
+      return sums
+    },
     //自定义表格底部合计
     funcGetSummaries(param) {
       const { columns, data } = param
@@ -520,7 +609,13 @@ export default {
         if (index === 0) {
           sums[index] = '合计'
           return
-        } else if (index === 3 || index === 4 || index === 8 || index === 9) {
+        } else if (
+          index === 3 ||
+          index === 4 ||
+          index === 8 ||
+          index === 9 ||
+          index === 10
+        ) {
           const values = data.map((item) => Number(item[column.property]))
           if (!values.every((value) => isNaN(value))) {
             sums[index] = `${values.reduce((prev, curr) => {
@@ -531,7 +626,13 @@ export default {
                 return prev
               }
             }, 0)}`
-            if (index === 3 || index === 4 || index === 8 || index === 9) {
+            if (
+              index === 3 ||
+              index === 4 ||
+              index === 8 ||
+              index === 9 ||
+              index === 10
+            ) {
               sums[index] = parseFloat(sums[index]).toFixed(2)
             }
           } else {
@@ -684,7 +785,7 @@ export default {
     },
     eventOpenWindow(row, mode = 'edit') {
       this.mode = mode
-
+      this.dialogShopNameSearch = ''
       if (mode == 'edit') {
         this.funcGetDate()
         if (row) {
@@ -846,7 +947,28 @@ export default {
         //   })
         //   return
         // }
+        if (item.PriceByTax === 0) {
+          this.tipDialogShow = true
+          this.countDown = 5
+          this.timer = setInterval(() => {
+            if (this.countDown == 0) {
+              clearInterval(this.timer)
+            }
+            this.countDown--
+          }, 1000)
+          return
+        }
       }
+      this.onSavePurchase()
+    },
+    // 提示语弹窗关闭
+    onTipDialogClose() {
+      clearInterval(this.timer)
+    },
+    // 保存
+    onSavePurchase() {
+      if (this.countDown > 0) return
+      this.tipDialogShow = false
       for (var i of this.supplierList2) {
         if (i.SupplierId == this.addForm.SupplierCode) {
           this.addForm.SupplierName = i.SupplierName
@@ -1236,6 +1358,21 @@ export default {
       this.dispatchData = []
       this.dispatchForm.whCode = ''
       this.dispatchForm.shopInfo = ''
+    },
+    // 表格排序方法
+    onSortChange({ column, prop, order }) {
+      if (prop) {
+        if (order == 'ascending') {
+          this.orderType = 'asc'
+        } else if (order == 'descending') {
+          this.orderType = 'desc'
+        }
+        this.orderField = prop.toLowerCase()
+      } else {
+        this.orderField = ''
+        this.orderType = ''
+      }
+      this.eventSearch()
     },
   },
   mounted() {
