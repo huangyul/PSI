@@ -7,6 +7,7 @@ import { getLodop } from '../../LodopFuncs.js'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { uploadFile, dispatchImport } from '../../../api/apiv2/common'
 import RangeDate from '../../../components/rangeDate.vue'
+import { revokeDispatch } from '../../../api/apiv2/oldModule.js'
 export default {
   name: 'ExternalTransferOutBase',
   components: { RangeDate },
@@ -79,6 +80,8 @@ export default {
       isPrint: true,
       isImportDialog: false,
       fileList: [],
+      revokeList: [],
+      tipDialogShow: false,
     }
   },
   methods: {
@@ -1025,6 +1028,26 @@ export default {
     // 导出模板
     eventExportTemplate() {
       window.location.href = './export/外部调拨.xlsx'
+    },
+    // 撤销
+    async onRevoke() {
+      this.revokeList = []
+      for (let i = 0, len = this.mainTableSelectData.length; i < len; i++) {
+        let item = this.mainTableSelectData[i]
+        if (item.Status != 1) {
+          ElMessage.warning('只有调拨中的数据才可进行撤销操作哦，请重新选择!')
+          return
+        }
+        this.revokeList.push(item.Id)
+      }
+      this.tipDialogShow = true
+    },
+    // 发起撤销请求
+    async confirmRevoke() {
+      await revokeDispatch(this.revokeList)
+      ElMessage.success('撤销成功')
+      this.tipDialogShow = false
+      this.eventSearch()
     },
   },
   mounted() {

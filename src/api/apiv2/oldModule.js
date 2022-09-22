@@ -18,3 +18,12 @@ export function updateCancelStockInfo(params, data) {
     data,
   })
 }
+
+// 外拨调拨-撤销
+export function revokeDispatch(data) {
+  return request({
+    url: '/api/StoreCheckout/TransferBack',
+    method: 'post',
+    data,
+  })
+}

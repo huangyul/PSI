@@ -17,6 +17,27 @@
       >
         <i class="print"></i>打印调拨单
       </button>
+      <el-tooltip
+        effect="light"
+        placement="top"
+        v-if="
+          permissionsList.TransferRevoke && mainTableSelectData.length === 0
+        "
+      >
+        <template #content>请先选择需要撤销的记录</template>
+        <button class="red" style="cursor: not-allowed">
+          <i class="revoke"></i>撤销
+        </button>
+      </el-tooltip>
+      <button
+        v-show="
+          permissionsList.TransferRevoke && mainTableSelectData.length > 0
+        "
+        class="red"
+        @click="onRevoke"
+      >
+        <i class="revoke"></i>撤销
+      </button>
       <span class="flex"></span>
       <!-- v-show="permissionsList.Import" -->
       <div class="uploadBox" v-show="permissionsList.Import">
@@ -610,6 +631,23 @@
         </div>
       </div>
     </el-dialog>
+    <div class="wx-tips">
+      <!-- 温馨提示弹窗 -->
+      <el-dialog v-model="tipDialogShow" :width="400">
+        <div class="dialog-body">
+          <div class="tip-content">
+            <img src="../../../assets/img/purchase/warning.png" /><span
+              class="tip-text"
+              >数据撤销后将无法恢复，确认撤销吗？</span
+            >
+          </div>
+          <div class="tip-btn">
+            <div class="btn-grey" @click="tipDialogShow = false">关闭</div>
+            <div class="btn-blue" @click="confirmRevoke">确认</div>
+          </div>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 <script src="./vmModule.js"></script>
@@ -693,6 +731,53 @@
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
+    }
+  }
+  .tip-content {
+    margin-top: 45px;
+    display: flex;
+    align-items: center;
+  }
+  .tip-text {
+    font-size: 16px;
+    font-family: Microsoft YaHei;
+    font-weight: bold;
+    color: #2d323c;
+    margin-left: 9px;
+  }
+  .tip-btn {
+    margin-top: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    .btn-blue {
+      width: 80px;
+      height: 34px;
+      background: #579ff6;
+      border-radius: 4px;
+      line-height: 34px;
+      text-align: center;
+      font-size: 14px;
+      font-family: Microsoft YaHei;
+      font-weight: bold;
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .btn-grey {
+      width: 80px;
+      height: 34px;
+      background: #ededee;
+      border: 1px solid #d9dbdd;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 34px;
+      font-size: 14px;
+      font-family: Microsoft YaHei;
+      font-weight: 400;
+      color: #767b83;
+      cursor: pointer;
+      margin-right: 12px;
     }
   }
 </style>

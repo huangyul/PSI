@@ -1189,6 +1189,14 @@
     background-position: center center;
     background-image: url('./assets/img/print.png');
   }
+  i.revoke {
+    width: 13px;
+    height: 11px;
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('./assets/img/purchase/revoke.png');
+  }
   i.reject {
     width: 14px;
     height: 14px;
