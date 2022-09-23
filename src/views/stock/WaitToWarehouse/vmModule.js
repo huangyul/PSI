@@ -438,6 +438,11 @@ export default {
           .get(url)
           .then((res) => {
             item.WarehouseList = res.data
+            if (res.data.length == 1) {
+              console.log(res.data)
+              item.EnterBase = res.data[0].Code
+              item.EnterBaseName = res.data[0].Name
+            }
           })
           .catch((err) => {
             this.$message({ message: err, type: 'warning' })

@@ -1344,7 +1344,7 @@
   }
   .all .wx-tips .el-dialog__header {
     padding: 0;
-    display: none;
+    border-bottom: none;
   }
   .all .wx-tips .el-overlay .el-dialog .el-dialog__body {
     min-height: auto;

@@ -763,6 +763,9 @@
       font-weight: bold;
       color: #ffffff;
       cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
     }
     .btn-grey {
       width: 80px;
@@ -778,6 +781,9 @@
       color: #767b83;
       cursor: pointer;
       margin-right: 12px;
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
 </style>

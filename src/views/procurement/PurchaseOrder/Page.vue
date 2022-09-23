@@ -363,9 +363,12 @@
           </button>
         </div>
         <div class="shop-search">
-          <span>门店名称：</span>
+          <span>搜索：</span>
           <div class="inputBox remark">
-            <el-input v-model="dialogShopNameSearch"></el-input>
+            <el-input
+              v-model="dialogShopNameSearch"
+              placeholder="输入门店名称"
+            ></el-input>
           </div>
           <!-- <button>查询</button> -->
         </div>
@@ -852,7 +855,12 @@
 
     <div class="wx-tips">
       <!-- 温馨提示弹窗 -->
-      <el-dialog v-model="tipDialogShow" :width="400" @close="onTipDialogClose">
+      <el-dialog
+        v-model="tipDialogShow"
+        :width="400"
+        @close="onTipDialogClose"
+        show-close
+      >
         <div class="dialog-body">
           <div class="title">
             <img src="../../../assets/img/purchase/notice.png" />
