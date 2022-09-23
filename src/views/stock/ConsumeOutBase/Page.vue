@@ -197,6 +197,31 @@
             <span>商品信息</span>
           </div>
           <span class="flex"></span>
+
+          <div class="use-title">
+            用途
+            <el-popover
+              placement="top"
+              :width="300"
+              trigger="click"
+              content="设置后，商品信息的用途会默认填入该设置项，可在列表中单独调整"
+            >
+              <template #reference>
+                <img src="../../../assets/img/instruction.png" />
+              </template>
+            </el-popover>
+            ：
+          </div>
+          <div class="regular" style="margin-right: 15px">
+            <el-select v-model="UseType" clearable @change="onUseSelectChange">
+              <el-option label="办公领用" :value="'办公领用'"></el-option>
+              <el-option label="社会贡献" :value="'社会贡献'"></el-option>
+              <el-option label="促销活动" :value="'促销活动'"></el-option>
+              <el-option label="APP销售" :value="'APP销售'"></el-option>
+              <el-option label="损失出库" :value="'损失出库'"></el-option>
+              <el-option label="其他" :value="'其他'"></el-option>
+            </el-select>
+          </div>
           <span><span class="requiredTip">*</span>门店名称：</span>
           <div class="regular" style="margin-right: 15px">
             <el-select
@@ -442,4 +467,13 @@
 </template>
 <script src="./vmModule.js"></script>
 
-<style scoped></style>
+<style scoped lang="scss">
+  .use-title {
+    display: flex;
+    align-items: center;
+    img {
+      margin: 0 4px;
+      cursor: pointer;
+    }
+  }
+</style>

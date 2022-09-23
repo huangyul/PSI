@@ -13,7 +13,6 @@ const app = createApp(App)
 
 // 统一注册elment icon组件，参考文档：https://element-plus.org/zh-CN/component/icon.html
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

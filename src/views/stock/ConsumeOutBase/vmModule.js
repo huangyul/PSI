@@ -54,6 +54,7 @@ export default {
       storeIsdisabled: false,
       MainCategoryTree: [],
       SubCategoryTree: [],
+      UseType: '',
     }
   },
   methods: {
@@ -231,6 +232,8 @@ export default {
           warehouseCode: '',
           positionCode: '',
         },
+        startTime: new Date(),
+        endTime: new Date(),
         page: 1,
         pageSize: 15,
         total: 0,
@@ -444,11 +447,10 @@ export default {
       this.searchSubFrom.searchCondition.product = ''
     },
     eventSelect() {
-      console.log(this.tableSelectData)
       if (this.tableSelectData.length > 0) {
         for (var selectData of this.tableSelectData) {
           selectData.CheckoutSum = 1
-          selectData.UseType = '办公领用'
+          selectData.UseType = this.UseType
           selectData.Remark = ''
           selectData.Money = selectData.Price * selectData.CheckoutSum
         }
@@ -518,6 +520,11 @@ export default {
         //this.funcGetMatType('main', newVal);
         this.funcGetWarehouseList('main', newVal)
       }
+    },
+    UseType(value) {
+      this.Itemlist.forEach((i) => {
+        i.UseType = value
+      })
     },
   },
 }
