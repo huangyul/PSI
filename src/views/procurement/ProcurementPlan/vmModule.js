@@ -246,14 +246,12 @@ export default {
     funcTableDeteleList(codes, shopCode, userType) {
       var url =
         procurement.ProcurementPlan.delete +
-        '?codes=' +
-        codes +
-        '&shopCode=' +
+        '?shopCode=' +
         shopCode +
         '&userType=' +
         userType
       this.$axios
-        .delete(url)
+        .delete(url, { data: codes.split(',') })
         .then((res) => {
           ElMessage.success({
             message: '删除成功',
@@ -440,7 +438,7 @@ export default {
           .then((res) => {
             this.addForm = res.data
             this.addForm.Details.forEach((i) => {
-              i.orderSum = i.GroupNum * i.PerGroupNum
+              i.orderSum = i.ApplyNum // i.GroupNum * i.PerGroupNum
             })
             //console.log(res.data);
             for (var item of this.addForm.Details) {

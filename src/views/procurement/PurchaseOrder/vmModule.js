@@ -1028,7 +1028,12 @@ export default {
     },
     //删除弹窗表格里面的商品
     eventDeleteDetails(index, row) {
-      this.addForm.PSI_Purchase_Order_Ms.splice(index, 1)
+      for (let i = 0; i < this.addForm.PSI_Purchase_Order_Ms.length; i++) {
+        if (this.addForm.PSI_Purchase_Order_Ms[i].Id === row.Id) {
+          this.addForm.PSI_Purchase_Order_Ms.splice(i, 1)
+        }
+      }
+      // this.addForm.PSI_Purchase_Order_Ms.splice(index, 1)
       if (this.addForm.PSI_Purchase_Order_Ms.length == 0) {
         this.supplierIsdisabled = false
         // this.addForm.SupplierCode = ''

@@ -13,7 +13,7 @@
         class="blue"
         @click="eventDetele(1)"
       >
-        <i class="TerminationCancellation"></i>订单撤销
+        <i class="TerminationCancellation"></i>终止撤销
       </button>
       <span class="flex"></span>
       <button v-show="permissionsList.Export" @click="eventExport" class="grey">

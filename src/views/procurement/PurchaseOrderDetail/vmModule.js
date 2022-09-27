@@ -191,7 +191,7 @@ export default {
           }
           if (![3, 4].includes(item.Status) && status == 1) {
             ElMessage.warning({
-              message: '只有状态为已完成或已发货才能订单撤销',
+              message: '只有状态为已完成或已发货才能终止撤销',
               type: 'warning',
             })
             return

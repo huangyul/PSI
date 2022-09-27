@@ -7,7 +7,7 @@ import RangeDate from '../../../components/rangeDate.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import JsBarcode from 'jsbarcode'
 export default {
-  name: 'DeliveryView',
+  // name: 'DeliveryView',
   components: { RangeDate },
   data() {
     return {
