@@ -559,15 +559,12 @@ export default {
             if (err.includes('商品已有待处理或处理中的申购计划')) {
               // this.errMessage = err.match(/\((.+?)\)/g)[0]
               this.errMessage = []
-              let arr = err.split('，')[1].split(' ')
-              arr.forEach((i) => {
-                if (i.length > 0) {
-                  this.errMessage.push({
-                    productName: i.match(/“(.+?)”/g)[0],
-                    OrderNum: i.match(/\((.+?)\)/g)[0],
-                  })
-                }
+              let arr = err.split('，')[1]
+              this.errMessage.push({
+                productName: arr.match(/“(.+?)”/g)[0],
+                OrderNum: arr.match(/\((.+?)\)/g)[0],
               })
+
               this.errMessage.forEach((e) => {
                 setTimeout(() => {
                   let notification = ElNotification({
