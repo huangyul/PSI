@@ -164,12 +164,32 @@
       >
       </el-pagination>
     </div>
+
+    <div class="wx-tips">
+      <!-- 温馨提示弹窗 -->
+      <el-dialog v-model="tipDialogShow" :width="400">
+        <div class="dialog-body">
+          <div class="title">
+            <img src="../../../assets/img/purchase/warning.png" />
+            <div class="text">撤销失败</div>
+          </div>
+          <div class="content">
+            该发货单关联采购订单商品已进行了订单终止操作，如需撤销发货，请先到
+            <span class="blue-text" @click="toPrucurementDetail"
+              >采购单明细</span
+            >
+            进行终止撤销，再撤销发货！
+          </div>
+          <div class="btn" @click="tipDialogShow = false">知道了</div>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script src="./vmModule.js"></script>
 
-<style scoped>
+<style scoped lang="scss">
   .shopTip {
     display: flex;
     align-items: center;
@@ -183,5 +203,64 @@
   .shopTip > i {
     margin-right: 5px;
     font-size: 18px;
+  }
+
+  .dialog-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .title {
+      display: flex;
+      align-items: center;
+      .text {
+        margin-left: 11px;
+        font-size: 16px;
+        font-family: Microsoft YaHei;
+        font-weight: bold;
+        color: #2d323c;
+      }
+    }
+
+    .content {
+      width: 340px;
+      background: #ffffff;
+      margin-top: 17px;
+      margin-bottom: 20px;
+      p {
+        font-size: 14px;
+        font-family: Microsoft YaHei;
+        color: #2d323c;
+      }
+      .red-font {
+        color: #ff5353;
+        font-weight: bold;
+      }
+      p:not(:last-child) {
+        margin-bottom: 24px;
+      }
+      .blue-text {
+        color: #428feb;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+    .btn {
+      background: #579ff6;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: Microsoft YaHei;
+      font-weight: bold;
+      color: #ffffff;
+      padding: 10px 30px;
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 16px;
+    }
+    .btn-disable {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   }
 </style>

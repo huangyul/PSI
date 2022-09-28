@@ -45,6 +45,7 @@ export default {
       total: 0,
       LogisticsList: [],
       isSupplier: false,
+      tipDialogShow: false,
     }
   },
   methods: {
@@ -217,15 +218,23 @@ export default {
           })
           .catch((err) => {
             loading.close()
-            this.$message({
-              message: err,
-              type: 'warning',
-            })
+            if (err.includes('订单终止')) {
+              this.tipDialogShow = true
+            } else {
+              this.$message({
+                message: err,
+                type: 'warning',
+              })
+            }
           })
       }
     },
     eventTableSelect(val) {
       this.tableDeteleData = val
+    },
+    toPrucurementDetail() {
+      this.tipDialogShow = false
+      this.$router.push({ name: 'PurchaseOrderDetail' })
     },
   },
   mounted() {
