@@ -481,6 +481,53 @@ export default {
         this.dialogVisible = true
       }
     },
+    showNewTip(err) {
+      this.errMessage = []
+      let arr = err.split('，')[1].split('“')
+      arr.forEach((i) => {
+        if (i.length > 0) {
+          this.errMessage.push({
+            productName: i.match(/(.+?)”/g)[0],
+            OrderNum: i.match(/\((.+?)\)/g)[0],
+          })
+        }
+      })
+
+      this.errMessage.forEach((e) => {
+        setTimeout(() => {
+          let notification = ElNotification({
+            title: '保存失败',
+            // <div>xxxxxx<span>xxxx</span>xxxxxxxx</div>
+            message: h('div', { style: 'word-break: break-all;' }, [
+              h('span', `“${e.productName}商品已有待处理或处理中的采购计划`),
+              h(
+                'span',
+                {
+                  style:
+                    'cursor: pointer; color: #428feb;text-decoration:underline',
+                  onclick: () => {
+                    const no = e.OrderNum.match(/[0-9a-zA-Z]/g).join('')
+                    // 关闭所有弹窗
+                    this.dialogVisibleScanQRCodes = false
+                    this.tipDialogShow = false
+                    this.dialogVisibleProduct = false
+                    this.dialogVisible = false
+                    this.searchForm.PlanCode = no
+                    this.eventSearch()
+                    notification.close()
+                  },
+                },
+                e.OrderNum
+              ),
+              h('span', '，不能重复添加哦'),
+            ]),
+            duration: 0,
+            type: 'warning',
+          })
+          this.$store.commit('addNotification', notification)
+        })
+      }, 0)
+    },
     eventSaveWindow() {
       this.addForm.ShopCode = this.productSearchForm.shopInfo
       if (
@@ -557,52 +604,7 @@ export default {
             loading.close()
             this.$store.commit('clearNotification')
             if (err.includes('商品已有待处理或处理中的申购计划')) {
-              // this.errMessage = err.match(/\((.+?)\)/g)[0]
-              this.errMessage = []
-              let arr = err.split('，')[1]
-              this.errMessage.push({
-                productName: arr.match(/“(.+?)”/g)[0],
-                OrderNum: arr.match(/\((.+?)\)/g)[0],
-              })
-
-              this.errMessage.forEach((e) => {
-                setTimeout(() => {
-                  let notification = ElNotification({
-                    title: '保存失败',
-                    // <div>xxxxxx<span>xxxx</span>xxxxxxxx</div>
-                    message: h('div', { style: 'word-break: break-all;' }, [
-                      h(
-                        'span',
-                        `${e.productName}商品已有待处理或处理中的采购计划`
-                      ),
-                      h(
-                        'span',
-                        {
-                          style:
-                            'cursor: pointer; color: #428feb;text-decoration:underline',
-                          onclick: () => {
-                            const no = e.OrderNum.match(/[0-9a-zA-Z]/g).join('')
-                            // 关闭所有弹窗
-                            this.dialogVisibleScanQRCodes = false
-                            this.tipDialogShow = false
-                            this.dialogVisibleProduct = false
-                            this.dialogVisible = false
-                            this.searchForm.PlanCode = no
-                            this.eventSearch()
-                            notification.close()
-                          },
-                        },
-                        e.OrderNum
-                      ),
-                      h('span', '，不能重复添加哦'),
-                    ]),
-                    duration: 0,
-                    type: 'warning',
-                  })
-                  this.$store.commit('addNotification', notification)
-                })
-              }, 0)
-              console.log(this.$store.state.notificationList)
+              this.showNewTip(err)
             } else {
               ElMessage.warning({
                 message: err,
@@ -633,10 +635,15 @@ export default {
           })
           .catch((err) => {
             loading.close()
-            ElMessage.warning({
-              message: err,
-              type: 'warning',
-            })
+            this.$store.commit('clearNotification')
+            if (err.includes('商品已有待处理或处理中的申购计划')) {
+              this.showNewTip(err)
+            } else {
+              ElMessage.warning({
+                message: err,
+                type: 'warning',
+              })
+            }
           })
       }
       //this.dialogVisible = false;
