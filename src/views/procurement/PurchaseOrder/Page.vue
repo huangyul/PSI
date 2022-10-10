@@ -157,12 +157,7 @@
       >
         <el-table-column type="selection" width="55" align="center">
         </el-table-column>
-        <el-table-column
-          prop="OrderCode"
-          label="采购单编号"
-          min-width="180"
-          sortable="custom"
-        >
+        <el-table-column prop="OrderCode" label="采购单编号" min-width="180">
           <template #default="scope">
             <span
               :class="{
@@ -182,15 +177,9 @@
         <el-table-column
           prop="ShopName"
           label="门店名称"
-          sortable="custom"
           width="230"
         ></el-table-column>
-        <el-table-column
-          prop="ProductName"
-          label="商品名称"
-          width="240"
-          sortable="custom"
-        >
+        <el-table-column prop="ProductName" label="商品名称" width="240">
         </el-table-column>
         <el-table-column prop="UnitName" label="单位" width="50">
         </el-table-column>

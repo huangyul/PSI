@@ -305,111 +305,139 @@
                 }
                 localStorage.setItem('leftMenus', JSON.stringify(res.data)) ///获取可以进去的菜单
                 localStorage.setItem('permissions', JSON.stringify(arr)) ///获取可以进去哪些页面信息
+
+                // TODO 是否需要token校验，如果不需要直接这样使用，如果需要则启动下面注释的代码块
+                var UserInfoUrl = port + '/api/UserLoginInfo/GetUserInfo'
                 axios
-                  .get(
-                    `${port}/api/UserLoginInfo/IsUserToken?tokenId=${route.query.TokenId}`
-                  )
+                  .get(UserInfoUrl)
                   .then((res) => {
-                    // console.log(process.env.NODE_ENV === 'development')
-                    // return
-                    if (process.env.NODE_ENV === 'development') {
-                      var UserInfoUrl = port + '/api/UserLoginInfo/GetUserInfo'
-                      axios
-                        .get(UserInfoUrl)
-                        .then((res) => {
-                          //console.log(res);
-                          localStorage.setItem('ms_username', res.data.Name) //测试环境参数，用户姓名
-                          localStorage.setItem('userCode', res.data.AccountCode) //测试环境参数，用户登录帐号
-                          localStorage.setItem(
-                            'userType',
-                            res.data.OrganizationType
-                          ) //测试环境参数，用户类型 0-总部用户 1-门店用户
-                          localStorage.setItem(
-                            'OrganizationId',
-                            res.data.TopOrgId
-                          ) //组织ID，辨别客户
+                    //console.log(res);
+                    localStorage.setItem('ms_username', res.data.Name) //测试环境参数，用户姓名
+                    localStorage.setItem('userCode', res.data.AccountCode) //测试环境参数，用户登录帐号
+                    localStorage.setItem('userType', res.data.OrganizationType) //测试环境参数，用户类型 0-总部用户 1-门店用户
+                    localStorage.setItem('OrganizationId', res.data.TopOrgId) //组织ID，辨别客户
 
-                          var OrgsUrl =
-                            port + '/api/UserLoginInfo/GetOrgsFromUser'
-                          axios
-                            .get(OrgsUrl)
-                            .then((res) => {
-                              localStorage.setItem('shopCode', res.data.OrgIds) //测试环境参数，登录用户所属门店编码 总部用户默认空
+                    var OrgsUrl = port + '/api/UserLoginInfo/GetOrgsFromUser'
+                    axios
+                      .get(OrgsUrl)
+                      .then((res) => {
+                        localStorage.setItem('shopCode', res.data.OrgIds) //测试环境参数，登录用户所属门店编码 总部用户默认空
 
-                              ElMessage.success('登录成功')
-                              router.push('/')
-                            })
-                            .catch((err) => {
-                              ElMessage.error(err)
-                            })
-                        })
-                        .catch((err) => {
-                          ElMessage.error(err)
-                        })
-                    } else {
-                      if (res.data == true) {
-                        var UserInfoUrl =
-                          port + '/api/UserLoginInfo/GetUserInfo'
-                        axios
-                          .get(UserInfoUrl)
-                          .then((res) => {
-                            //console.log(res);
-                            localStorage.setItem('ms_username', res.data.Name) //测试环境参数，用户姓名
-                            localStorage.setItem(
-                              'userCode',
-                              res.data.AccountCode
-                            ) //测试环境参数，用户登录帐号
-                            localStorage.setItem(
-                              'userType',
-                              res.data.OrganizationType
-                            ) //测试环境参数，用户类型 0-总部用户 1-门店用户
-                            localStorage.setItem(
-                              'OrganizationId',
-                              res.data.TopOrgId
-                            ) //组织ID，辨别客户
-
-                            var OrgsUrl =
-                              port + '/api/UserLoginInfo/GetOrgsFromUser'
-                            axios
-                              .get(OrgsUrl)
-                              .then((res) => {
-                                localStorage.setItem(
-                                  'shopCode',
-                                  res.data.OrgIds
-                                ) //测试环境参数，登录用户所属门店编码 总部用户默认空
-
-                                ElMessage.success('登录成功')
-                                router.push('/')
-                              })
-                              .catch((err) => {
-                                ElMessage.error(err)
-                              })
-                          })
-                          .catch((err) => {
-                            ElMessage.error(err)
-                          })
-                      } else {
-                        ElMessage({
-                          message: '身份验证失败，请重新登录',
-                          type: 'warning',
-                          duration: 1000,
-                        })
-                        setTimeout(() => {
-                          var url = './table.json'
-                          axios
-                            .get(url)
-                            .then((res) => {
-                              window.location.href =
-                                'http://' + res.data.yunhoutaiUrl
-                              window.localStorage.clear() //清除所有key
-                            })
-                            .catch((err) => {
-                              // ElMessage.warning({ message: err, type: 'warning' })
-                            })
-                        }, 1000)
-                      }
-                    }
+                        ElMessage.success('登录成功')
+                        router.push('/')
+                      })
+                      .catch((err) => {
+                        ElMessage.error(err)
+                      })
                   })
+                  .catch((err) => {
+                    ElMessage.error(err)
+                  })
+
+                // axios
+                //   .get(
+                //     `${port}/api/UserLoginInfo/IsUserToken?tokenId=${route.query.TokenId}`
+                //   )
+                //   .then((res) => {
+                //     if (process.env.NODE_ENV === 'development') {
+                //       var UserInfoUrl = port + '/api/UserLoginInfo/GetUserInfo'
+                //       axios
+                //         .get(UserInfoUrl)
+                //         .then((res) => {
+                //           //console.log(res);
+                //           localStorage.setItem('ms_username', res.data.Name) //测试环境参数，用户姓名
+                //           localStorage.setItem('userCode', res.data.AccountCode) //测试环境参数，用户登录帐号
+                //           localStorage.setItem(
+                //             'userType',
+                //             res.data.OrganizationType
+                //           ) //测试环境参数，用户类型 0-总部用户 1-门店用户
+                //           localStorage.setItem(
+                //             'OrganizationId',
+                //             res.data.TopOrgId
+                //           ) //组织ID，辨别客户
+
+                //           var OrgsUrl =
+                //             port + '/api/UserLoginInfo/GetOrgsFromUser'
+                //           axios
+                //             .get(OrgsUrl)
+                //             .then((res) => {
+                //               localStorage.setItem('shopCode', res.data.OrgIds) //测试环境参数，登录用户所属门店编码 总部用户默认空
+
+                //               ElMessage.success('登录成功')
+                //               router.push('/')
+                //             })
+                //             .catch((err) => {
+                //               ElMessage.error(err)
+                //             })
+                //         })
+                //         .catch((err) => {
+                //           ElMessage.error(err)
+                //         })
+                //     }
+                //     // else {
+                //     //   if (res.data == true) {
+                //     //     var UserInfoUrl =
+                //     //       port + '/api/UserLoginInfo/GetUserInfo'
+                //     //     axios
+                //     //       .get(UserInfoUrl)
+                //     //       .then((res) => {
+                //     //         //console.log(res);
+                //     //         localStorage.setItem('ms_username', res.data.Name) //测试环境参数，用户姓名
+                //     //         localStorage.setItem(
+                //     //           'userCode',
+                //     //           res.data.AccountCode
+                //     //         ) //测试环境参数，用户登录帐号
+                //     //         localStorage.setItem(
+                //     //           'userType',
+                //     //           res.data.OrganizationType
+                //     //         ) //测试环境参数，用户类型 0-总部用户 1-门店用户
+                //     //         localStorage.setItem(
+                //     //           'OrganizationId',
+                //     //           res.data.TopOrgId
+                //     //         ) //组织ID，辨别客户
+
+                //     //         var OrgsUrl =
+                //     //           port + '/api/UserLoginInfo/GetOrgsFromUser'
+                //     //         axios
+                //     //           .get(OrgsUrl)
+                //     //           .then((res) => {
+                //     //             localStorage.setItem(
+                //     //               'shopCode',
+                //     //               res.data.OrgIds
+                //     //             ) //测试环境参数，登录用户所属门店编码 总部用户默认空
+
+                //     //             ElMessage.success('登录成功')
+                //     //             router.push('/')
+                //     //           })
+                //     //           .catch((err) => {
+                //     //             ElMessage.error(err)
+                //     //           })
+                //     //       })
+                //     //       .catch((err) => {
+                //     //         ElMessage.error(err)
+                //     //       })
+                //     //   } else {
+                //     //     ElMessage({
+                //     //       message: '身份验证失败，请重新登录',
+                //     //       type: 'warning',
+                //     //       duration: 1000,
+                //     //     })
+                //     //     setTimeout(() => {
+                //     //       var url = './table.json'
+                //     //       axios
+                //     //         .get(url)
+                //     //         .then((res) => {
+                //     //           window.location.href =
+                //     //             'http://' + res.data.yunhoutaiUrl
+                //     //           window.localStorage.clear() //清除所有key
+                //     //         })
+                //     //         .catch((err) => {
+                //     //           // ElMessage.warning({ message: err, type: 'warning' })
+                //     //         })
+                //     //     }, 1000)
+                //     //   }
+                //     // }
+                //   })
               })
               .catch((err) => {
                 ElMessage.error(err)
