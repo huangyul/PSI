@@ -6,6 +6,8 @@ import router from '../../../router'
 import Bus from '../../Bus.js'
 import { ref, reactive, onMounted, onBeforeUnmount, onUnmounted } from 'vue'
 import { getLodop } from '../../LodopFuncs.js'
+import ImportLoading from '../../../components/ImportLoading.vue'
+import { uploadFileNew, dealUploadFile } from '../../../api/apiv2/common'
 export default {
   name: 'CommodityManagement',
   setup() {
@@ -40,8 +42,18 @@ export default {
       BarCodeTemplate: '',
       orderField: '', // 排序字段 统一小写
       orderType: '', // 排序方式：desc、asc两者之一
+      isItemImportDialogShow: true,
+      dataFile: null,
+      imageFile: null,
+      dataFileName: '',
+      imageFileName: '',
+      isTipShow: false,
+      tipText: '',
+      isImportLoading: false,
+      loadingText: ''
     }
   },
+  components: { ImportLoading },
   methods: {
     funcGetTableData(
       productName,
@@ -553,6 +565,62 @@ export default {
       }
       this.eventSearch()
     },
+
+    // 商品导入
+    onItemImport() {
+      this.dataFile = null
+      this.imageFile = null
+      this.dataFileName = ''
+      this.imageFileName = ''
+      this.isItemImportDialogShow = true
+    },
+    // 获取选择的数据文件
+    handleBeforeDataUpload(file) {
+      if(!['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(file.type)) {
+        ElMessage.warning('仅支持 *.xls, *.xlsx')
+        return false
+      }
+      this.dataFile = file
+      this.dataFileName = file.name
+      return false
+    },
+    // 获取选择的图片压缩包
+    handleBeforeImageUpload(file) {
+      if(file.type != 'application/zip') {
+        ElMessage.warning('仅支持 *.zip')
+        return false
+      }
+      if(file.size > 100 * 1024 * 1024) {
+        this.tipText = `${file.name}文件大小不能超过100M哦，请重新导入`
+        this.isTipShow = true
+        return false
+      }
+      this.imageFile = file
+      this.imageFileName = file.name
+      return false
+    },
+    // 点击上传
+    async handleUpload() {
+      if(!this.dataFile) {
+        ElMessage.warning('请先选择导入文件，再进行上传操作')
+        return
+      }
+      const formData = new FormData()
+      if(this.dataFile) {
+        formData.append(this.dataFileName, this.dataFile)
+      }
+      if(this.imageFile) {
+        formData.append(this.imageFile, this.imageFileName)
+      }
+      this.loadingText = '文件上传中...'
+      this.isImportLoading = true
+      await uploadFileNew(1, formData)
+      this.loadingText = '上传成功，文件正在处理..'
+      await dealUploadFile()
+      setTimeout(() => {
+        this.isImportLoading = false
+      }, 3000)
+    }
   },
   mounted() {
     func.SearchJudge()

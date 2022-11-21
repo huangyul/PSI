@@ -63,7 +63,7 @@
       onMounted(() => {
         //localStorage.removeItem("Token");
         window.localStorage.clear() //清除所有key
-
+        localStorage.setItem('orgId', route.query.OrgId)
         identifyCode.value = ''
         funcMakeCode(identifyCodes.value, 4)
 

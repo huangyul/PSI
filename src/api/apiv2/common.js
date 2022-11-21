@@ -66,3 +66,42 @@ export function downloadFile(path) {
     responseType: 'blob',
   })
 }
+
+/* 批量导入相关接口-十二期需求 */
+
+/**
+ * 上次文件
+ * @param {number} importType 上次文件类型 1-商品信息  2-采购计划信息  3-采购订单信息  4-外部调拨
+ * @param {*} fileList 文件集，包含数据文件及图片压缩包 数据文件不能为空
+ * @returns
+ */
+export function uploadFileNew(importType, fileList) {
+  return request({
+    url: 'api/File/UploadFileNew',
+    method: 'post',
+    params: {
+      userCode: localStorage.getItem('UserCode'),
+      userName: localStorage.getItem('ms_username'),
+      importType,
+    },
+    timeout: 0,
+    headers: { 'Content-type': 'multipart/form-data' },
+    data: fileList,
+  })
+}
+
+/**
+ * 处理上传的文件，此接口不需要等待
+ * @returns 
+ */
+export function dealUploadFile() {
+  return request({
+    url: '/api/Item/ImportItemAndPhoto',
+    method: 'post',
+    params: {
+      userCode: localStorage.getItem('UserCode'),
+      userName: localStorage.getItem('ms_username'),
+      orgId: localStorage.getItem('orgId'),
+    },
+  })
+}
