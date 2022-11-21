@@ -10,7 +10,10 @@ export default {
     include: ['schart.js'],
   },
   resolve: {
-    alias: { '@': _resolve('src') },
+    alias: { 
+      '@': _resolve('src'),
+      'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js' 
+    },
   },
   server: {
     host: '0.0.0.0',
