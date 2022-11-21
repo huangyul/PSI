@@ -591,6 +591,15 @@ const routes = [
         component: () =>
           import('../views/basis/PurchasePermissionManagement/Page.vue'),
       },
+      {
+        path: '/ManUploadU8Data',
+        name: 'ManUploadU8Data',
+        meta: {
+          title: '单据同步U8',
+        },
+        component: () =>
+          import('../views/u8/ManUploadU8Data/index.vue'),
+      },
     ],
   },
   {

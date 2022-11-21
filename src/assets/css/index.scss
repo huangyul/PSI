@@ -31,44 +31,52 @@
   align-items: flex-end;
 }
 
+.sr-col-center {
+  align-items: center;
+}
+
 @for $i from 1 through 10 {
   .sr-flex-#{$i} {
     flex: #{$i};
   }
 }
 
-
 // 间隔
 @for $i from 1 through 35 {
-	.sr-mt#{$i} {
-		margin-top: #{$i}px !important;
-	}
-	.sr-mr#{$i} {
-		margin-right: #{$i}px !important;
-	}
-	.sr-mb#{$i} {
-		margin-bottom: #{$i}px !important;
-	}
-	.sr-ml#{$i} {
-		margin-left: #{$i}px !important;
-	}
-	.sr-pt#{$i} {
-		padding-top: #{$i}px !important;
-	}
-	.sr-pr#{$i} {
-		padding-right: #{$i}px !important;
-	}
-	.sr-pb#{$i} {
-		padding-bottom: #{$i}px !important;
-	}
-	.sr-pl#{$i} {
-		padding-left: #{$i}px !important;
-	}
+  .sr-mt#{$i} {
+    margin-top: #{$i}px !important;
+  }
+  .sr-mr#{$i} {
+    margin-right: #{$i}px !important;
+  }
+  .sr-mb#{$i} {
+    margin-bottom: #{$i}px !important;
+  }
+  .sr-ml#{$i} {
+    margin-left: #{$i}px !important;
+  }
+  .sr-pt#{$i} {
+    padding-top: #{$i}px !important;
+  }
+  .sr-pr#{$i} {
+    padding-right: #{$i}px !important;
+  }
+  .sr-pb#{$i} {
+    padding-bottom: #{$i}px !important;
+  }
+  .sr-pl#{$i} {
+    padding-left: #{$i}px !important;
+  }
 }
 
 @for $i from 1 through 10 {
   .sr-h-overflow-#{$i*100} {
-    max-height: #{$i*100}px;
+    max-height: #{$i * 100}px;
     overflow: auto;
   }
+}
+
+// 常见文本颜色
+.error-text {
+  color: #ff5353;
 }

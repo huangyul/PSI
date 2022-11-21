@@ -1109,6 +1109,14 @@
     background-position: center center;
     background-image: url('./assets/img/PlaceOrder.png');
   }
+  i.U8Sync {
+    width: 13px;
+    height: 14px;
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('./assets/img/U8Sync.png');
+  }
   i.dispatchOrder {
     width: 13px;
     height: 14px;

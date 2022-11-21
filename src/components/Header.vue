@@ -35,7 +35,7 @@
     <el-dialog
       :title="'预警提示'"
       v-model="dialogVisible"
-      width="320px"
+      width="400px"
       :center="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
@@ -125,9 +125,11 @@
         permissionsListMax: {},
         permissionsListMin: {},
         permissionsListMDay: {},
+        permissionsListU8: {},
         dialogVisible: false,
         todayNotShow: false,
         warningList: [
+          { type: 'U8', Warn: '单据同步U8失败，请点击处理', Count: 0 },
           { type: 'Min', Warn: '库存过低预警', Count: 0 },
           { type: 'Max', Warn: '库存过高预警', Count: 0 },
           { type: 'Day', Warn: '滞留物品预警', Count: 0 },
@@ -145,6 +147,10 @@
       //打开预警tab
       OpenWarningTab(type) {
         this.dialogVisible = false
+        if (type == 'U8') {
+          router.push('/ManUploadU8Data')
+          return
+        }
         router.push('/' + type + 'StockWarn')
       },
       //关闭
@@ -179,29 +185,36 @@
             } else {
               if (res.data.Success == true) {
                 this.IsCommitInventory = res.data.data.IsCommitInventory
+                if(
+                  this.permissionsListU8?.Rights?.Query
+                ) {
+                  this.warningList[0].Count = res.data.data.ErrorToU8
+                } else {
+                  this.warningList[0].Count = -1
+                }
                 if (
                   this.permissionsListMin != undefined &&
                   this.permissionsListMin.Rights.Query
                 ) {
-                  this.warningList[0].Count = res.data.data.MinStockWarning
+                  this.warningList[1].Count = res.data.data.MinStockWarning
                 } else {
-                  this.warningList[0].Count = -1
+                  this.warningList[1].Count = -1
                 }
                 if (
                   this.permissionsListMax != undefined &&
                   this.permissionsListMax.Rights.Query
                 ) {
-                  this.warningList[1].Count = res.data.data.MaxStockWarning
+                  this.warningList[2].Count = res.data.data.MaxStockWarning
                 } else {
-                  this.warningList[1].Count = -1
+                  this.warningList[2].Count = -1
                 }
                 if (
                   this.permissionsListMDay != undefined &&
                   this.permissionsListMDay.Rights.Query
                 ) {
-                  this.warningList[2].Count = res.data.data.OverStockWarning
+                  this.warningList[3].Count = res.data.data.OverStockWarning
                 } else {
-                  this.warningList[2].Count = -1
+                  this.warningList[3].Count = -1
                 }
                 this.warningList = this.warningList.filter(
                   (item, index, arr) => {
@@ -212,7 +225,7 @@
                   var zeroList = this.warningList.filter((item, index, arr) => {
                     return item.Count == 0
                   })
-                  if (zeroList.length == 3) {
+                  if (zeroList.length == 4) {
                     //this.dialogVisible = false;
                     this.isShowTable = false
                   } else {
@@ -223,6 +236,10 @@
                   //this.dialogVisible = false;
                   this.isShowTable = false
                 }
+                // 警告数量为0的不显示
+                this.warningList = this.warningList.filter(i => {
+                  return i.Count > 0
+                })
                 if (
                   this.IsCommitInventory === false ||
                   this.isShowTable === true
@@ -248,6 +265,9 @@
         return
       }
       var AllPromossions = JSON.parse(localStorage.getItem('permissions'))
+      this.permissionsListU8 = AllPromossions.find(i => {
+        return i.ModuleUrl == 'ManUploadU8Data'
+      })
       this.permissionsListMax = AllPromossions.find(function (item) {
         return item.ModuleUrl == 'MaxStockWarn'
       })
@@ -436,7 +456,8 @@
   }
   .el-table .box .iconBox .Min,
   .el-table .box .iconBox .Max,
-  .el-table .box .iconBox .Day {
+  .el-table .box .iconBox .Day,
+  .el-table .box .iconBox .U8 {
     width: 100%;
     height: 100%;
     background-size: auto;
@@ -451,6 +472,9 @@
   }
   .el-table .box .iconBox .Day {
     background-image: url(/src/assets/img/StayWarningTip.png);
+  }
+  .el-table .box .iconBox .U8 {
+    background-image: url(/src/assets/img/U8.png);
   }
   .el-table .box .name {
     flex: 1;

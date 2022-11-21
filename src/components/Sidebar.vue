@@ -240,6 +240,13 @@
   .sidebarBox .menu .first.active > .warn {
     background-image: url('../assets/img/warningActive.png');
   }
+  .sidebarBox .menu .first > .u8data {
+    background-image: url('../assets/img/u8data.png');
+  }
+  .sidebarBox .menu .first:hover > .u8data,
+  .sidebarBox .menu .first.active > .u8data {
+    background-image: url('../assets/img/u8dataActive.png');
+  }
   .sidebarBox .menu .first .second {
     display: flex;
     flex-direction: column;
@@ -450,6 +457,9 @@
   .sidebarBox .second .secondBox > a .MinStockWarn {
     background-image: url('../assets/img/LowWarning.png');
   }
+  .sidebarBox .second .secondBox > a .ManUploadU8Data {
+    background-image: url('../assets/img/ManUploadU8Data.png');
+  }
   .sidebarBox .second .secondBox > a .MaxStockWarn {
     background-image: url('../assets/img/HighWarning.png');
   }
@@ -484,6 +494,9 @@
   }
   .sidebarBox .second .secondBox > a:hover .CommodityManagement {
     background-image: url('../assets/img/CommodityManagement_h.png');
+  }
+  .sidebarBox .second .secondBox > a:hover .ManUploadU8Data {
+    background-image: url('../assets/img/ManUploadU8Data_h.png');
   }
   .sidebarBox .second .secondBox > a:hover .SetUp {
     background-image: url('../assets/img/SetUp_h.png');
