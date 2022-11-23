@@ -3,29 +3,34 @@ import { ElMessage, ElLoading } from 'element-plus'
 
 // 获取baseUrl
 const getBaseUrl = () => {
-  let baseURL = localStorage.getItem('apiUrl')
-  if (!baseURL) {
-    axios.get('./table.json').then((res) => {
+  return new Promise(async (resolve) => {
+    let baseURL = localStorage.getItem('apiUrl')
+    if (!baseURL) {
+      const res = await axios.get('./table.json')
       localStorage.setItem('apiUrl', res.data.apiUrl)
       baseURL = res.data.apiUrl
-    })
-  }
-  return baseURL
+      resolve(baseURL)
+    }
+    resolve(baseURL)
+  })
 }
 
 const service = axios.create({
   // process.env.NODE_ENV === 'development' 来判断是否开发环境
   // easy-mock服务挂了，暂时不使用了
   // baseURL: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
-  baseURL: getBaseUrl(),
+  baseURL: await getBaseUrl(),
   method: 'get',
   timeout: 0,
 })
+
+console.log(service)
 
 let loading
 
 service.interceptors.request.use(
   (config) => {
+    console.log(config)
     loading = ElLoading.service({
       lock: true,
       text: 'Loading',

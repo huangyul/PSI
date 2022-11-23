@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <v-header />
+    <v-header @open-task-list="openTaskList" />
     <v-sidebar />
     <div class="content-box" :class="{ 'content-collapse': collapse }">
       <v-tags></v-tags>
@@ -15,6 +15,7 @@
         <!-- <el-backtop target=".content"></el-backtop> -->
       </div>
     </div>
+    <TaskList v-model:is-show="isTaskShow"></TaskList>
   </div>
 </template>
 <script>
@@ -23,11 +24,23 @@
   import vHeader from '../components/Header.vue'
   import vSidebar from '../components/Sidebar.vue'
   import vTags from '../components/Tags.vue'
+  import TaskList from '../components/TaskList.vue'
   export default {
     components: {
       vHeader,
       vSidebar,
       vTags,
+      TaskList,
+    },
+    data() {
+      return {
+        isTaskShow: false,
+      }
+    },
+    methods: {
+      openTaskList() {
+        this.isTaskShow = true
+      },
     },
     setup() {
       const store = useStore()

@@ -240,7 +240,7 @@ export default {
         '&matTypeID=' +
         this.searchSubFrom.searchCondition.MatTypeID +
         '&productInfo=' +
-        this.searchSubFrom.searchCondition.Product +
+        encodeURIComponent(this.searchSubFrom.searchCondition.Product) +
         '&assetNum=' +
         this.searchSubFrom.searchCondition.assetNoForSearch +
         '&page=' +

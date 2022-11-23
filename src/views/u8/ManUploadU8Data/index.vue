@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%;">
     <div class="all">
       <div class="topBtnBox">
         <button v-show="permissionsList.Add" class="blue" @click="onU8Sync">
@@ -50,8 +50,8 @@
           style="width: 100%"
           :row-class-name="funcRowClassName"
           row-key="Id"
-          height="100%"
           stripe
+          height="100%"
           :total="total"
         >
           <el-table-column

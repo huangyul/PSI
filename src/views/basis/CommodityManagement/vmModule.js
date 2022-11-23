@@ -8,6 +8,7 @@ import { ref, reactive, onMounted, onBeforeUnmount, onUnmounted } from 'vue'
 import { getLodop } from '../../LodopFuncs.js'
 import ImportLoading from '../../../components/ImportLoading.vue'
 import { uploadFileNew, dealUploadFile } from '../../../api/apiv2/common'
+import TaskDetail from '../../../components/TaskDetail.vue'
 export default {
   name: 'CommodityManagement',
   setup() {
@@ -42,7 +43,7 @@ export default {
       BarCodeTemplate: '',
       orderField: '', // 排序字段 统一小写
       orderType: '', // 排序方式：desc、asc两者之一
-      isItemImportDialogShow: true,
+      isItemImportDialogShow: false,
       dataFile: null,
       imageFile: null,
       dataFileName: '',
@@ -50,10 +51,12 @@ export default {
       isTipShow: false,
       tipText: '',
       isImportLoading: false,
-      loadingText: ''
+      loadingText: '',
+      isTaskDetailShow: false,
+      taskId: '',
     }
   },
-  components: { ImportLoading },
+  components: { ImportLoading, TaskDetail },
   methods: {
     funcGetTableData(
       productName,
@@ -93,7 +96,6 @@ export default {
         .then((res) => {
           this.tableData = res.data.Results
           this.total = res.data.TotalCount
-          //console.log(this.tableData);
         })
         .catch((err) => {
           this.$message({ message: err, type: 'warning' })
@@ -576,7 +578,12 @@ export default {
     },
     // 获取选择的数据文件
     handleBeforeDataUpload(file) {
-      if(!['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(file.type)) {
+      if (
+        ![
+          'application/vnd.ms-excel',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ].includes(file.type)
+      ) {
         ElMessage.warning('仅支持 *.xls, *.xlsx')
         return false
       }
@@ -586,11 +593,11 @@ export default {
     },
     // 获取选择的图片压缩包
     handleBeforeImageUpload(file) {
-      if(file.type != 'application/zip') {
+      if (file.type != 'application/zip') {
         ElMessage.warning('仅支持 *.zip')
         return false
       }
-      if(file.size > 100 * 1024 * 1024) {
+      if (file.size > 100 * 1024 * 1024) {
         this.tipText = `${file.name}文件大小不能超过100M哦，请重新导入`
         this.isTipShow = true
         return false
@@ -601,26 +608,29 @@ export default {
     },
     // 点击上传
     async handleUpload() {
-      if(!this.dataFile) {
+      if (!this.dataFile) {
         ElMessage.warning('请先选择导入文件，再进行上传操作')
         return
       }
       const formData = new FormData()
-      if(this.dataFile) {
+      if (this.dataFile) {
         formData.append(this.dataFileName, this.dataFile)
       }
-      if(this.imageFile) {
+      if (this.imageFile) {
         formData.append(this.imageFile, this.imageFileName)
       }
       this.loadingText = '文件上传中...'
       this.isImportLoading = true
-      await uploadFileNew(1, formData)
-      this.loadingText = '上传成功，文件正在处理..'
+      const res = await uploadFileNew(1, formData)
       await dealUploadFile()
+      this.loadingText = '上传成功，文件正在处理..'
       setTimeout(() => {
         this.isImportLoading = false
+        this.isItemImportDialogShow = false
+        this.isTaskDetailShow = true
+        this.taskId = res.Msg
       }, 3000)
-    }
+    },
   },
   mounted() {
     func.SearchJudge()

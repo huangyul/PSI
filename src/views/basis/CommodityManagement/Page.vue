@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%;">
     <div class="all">
       <div class="topBtnBox">
         <button
@@ -344,6 +344,10 @@
       :text="loadingText"
       >
     </ImportLoading>
+
+    <TaskDetail 
+      v-if="isTaskDetailShow"
+      v-model:is-show="isTaskDetailShow" :transactionId="taskId"></TaskDetail>
   </div>
 </template>
 

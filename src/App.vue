@@ -417,11 +417,11 @@
     flex: 1;
     min-height: 320px;
   }
-  @media screen and (max-width: 1440px) and (min-width: 1px) {
+  /* @media screen and (max-width: 1440px) and (min-width: 1px) {
     .all .el-overlay .el-dialog {
       max-height: 700px;
     }
-  }
+  } */
 
   .all .dialogVisible .searchBox {
     overflow: visible;

@@ -55,12 +55,12 @@ export function purchaseTemplateExport(params, data) {
 }
 
 // 下载文件
-export function downloadFile(path) {
+export function downloadFile(path, isDelete = 1) {
   return request({
     url: '/api/File/DownloadFile',
     params: {
       filePath: path,
-      delete: 1,
+      delete: isDelete,
     },
     timeout: 0,
     responseType: 'blob',
@@ -92,7 +92,7 @@ export function uploadFileNew(importType, fileList) {
 
 /**
  * 处理上传的文件，此接口不需要等待
- * @returns 
+ * @returns
  */
 export function dealUploadFile() {
   return request({

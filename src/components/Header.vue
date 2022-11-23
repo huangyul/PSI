@@ -15,22 +15,29 @@
 						<span>帮助</span>
 					</router-link>
 				</div> -->
-    <el-dropdown class="user-name" trigger="click" @command="handleCommand">
-      <span class="el-dropdown-link">
-        {{ username }}
-        <i class="el-icon-caret-bottom"></i>
-      </span>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <!-- <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
-				                <el-dropdown-item>项目仓库</el-dropdown-item>
-				            </a>
-				            <el-dropdown-item command="user">个人中心</el-dropdown-item>
-				            <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item> -->
-          <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+      <div class="sr-flex">
+        <div class="message" @click="$emit('openTaskList')">
+          消息
+          <span class="message-number">12</span>
+        </div>
+        <el-dropdown class="user-name" trigger="click" @command="handleCommand">
+          <span class="el-dropdown-link">
+            {{ username }}
+            <i class="el-icon-caret-bottom"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <!-- <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
+                            <el-dropdown-item>项目仓库</el-dropdown-item>
+                        </a>
+                        <el-dropdown-item command="user">个人中心</el-dropdown-item>
+                        <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item> -->
+              <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+
 
     <el-dialog
       :title="'预警提示'"
@@ -120,6 +127,7 @@
   import axios from 'axios'
   import router from '../router'
   export default {
+    emits: ['openTaskList'],
     data() {
       return {
         permissionsListMax: {},
@@ -374,7 +382,15 @@
     color: #ffffff;
   }
   .header .message {
-    margin-right: 0px;
+    margin-right: 30px;
+    cursor: pointer;
+  }
+
+  .header .message .message-number {
+    background: #f9c02e;
+    padding: 1px 6px;
+    border-radius: 40%;
+    cursor: pointer;
   }
   .header .message > a {
     display: flex;

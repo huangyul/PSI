@@ -92,7 +92,9 @@ export default {
         page: this.currentPage,
         pageSize: this.pageSize,
       })
+      console.log(res.Results)
       this.tableData = res.Results
+      console.log(this.tableData)
       this.total = res.TotalCount
     },
     init() {
