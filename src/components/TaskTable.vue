@@ -30,7 +30,6 @@
         width="170"
       ></el-table-column>
     </el-table>
-    <p>{{ a }}</p>
   </div>
   <TaskDetail
     v-if="isDetailShow"

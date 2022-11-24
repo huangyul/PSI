@@ -97,7 +97,6 @@
       }
     },
     mounted() {
-      console.log(this.transactionId)
       this.init()
     },
     methods: {

@@ -22,6 +22,7 @@
           </el-input>
           <el-upload
             :show-file-list="false"
+            action=""
             :before-upload="handleBeforeDataUpload"
             accept=".xls,.xlsx"
           >
@@ -43,6 +44,7 @@
           ></el-input>
           <el-upload
             :show-file-list="false"
+            action=""
             :before-upload="handleBeforeImageUpload"
             accept=".zip"
           >

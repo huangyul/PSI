@@ -23,7 +23,6 @@ export const dataURLToFile = (dataurl, filename) => {
   const arr = dataurl.split(',')
   const bstr = window.atob(arr[1])
   const type = arr[0].match(/:(.*?);/)[1]
-  console.log(type)
   let n = bstr.length
   const u8arr = new Uint8Array(n)
   while (n--) {

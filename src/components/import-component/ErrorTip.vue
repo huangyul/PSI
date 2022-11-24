@@ -1,6 +1,6 @@
 <template>
   <div class="error">
-    <el-dialog v-model="isShow" width="400px" align-center :show-close="false">
+    <el-dialog v-model="isShow" width="400px" :show-close="false">
       <template #title>
         <div class="tip-header">
           <img src="../../assets/img/purchase/warning.png" />
@@ -58,7 +58,7 @@
     border-bottom: none !important;
   }
   ::v-deep .el-dialog__body {
-    min-height: auto !important;;
+    min-height: auto !important;
   }
   .dialog-tips {
     text-align: center;
