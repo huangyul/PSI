@@ -255,95 +255,14 @@
           </span>
         </template>
       </el-dialog>
-
-      <!-- 商品导入弹窗 -->
-      <el-dialog 
-        title="商品管理导入" 
-        :width="600"
-        v-model="isItemImportDialogShow">
-        <div class="itemImport">
-          <div class="file-item">
-            <div class="label"><span class="required">* </span>请选择数据文件： </div>
-            <div class="form">
-              <el-input 
-                clearable 
-                v-model="dataFileName" 
-                class="input"
-                :disabled="true">
-              </el-input>
-              <el-upload
-                :show-file-list="false"
-                :before-upload="handleBeforeDataUpload"
-                accept=".xls,.xlsx"
-              >
-                <div class="choose-btn">选择</div>
-              </el-upload>
-            </div>
-            <div class="file-tips">支持 *.xls, *.xlsx</div>
-          </div>
-          <div class="file-item">
-            <div class="label"><span class="required">* </span>请选择数据文件： </div>
-            <div class="form">
-              <el-input clearable class="input" v-model="imageFileName" :disabled="true"></el-input>
-              <el-upload
-                :show-file-list="false"
-                :before-upload="handleBeforeImageUpload"
-                accept=".zip"
-              >
-                <div class="choose-btn">选择</div>
-              </el-upload>
-            </div>
-            <div class="file-tips">支持 *.zip，最大不超过100M</div>
-          </div>
-          <div class="tips">
-            <span style="font-weight: bold;">提示：</span>支持 png、jpg 格式图片，且请确保压缩包中图片文件名与数据文件
-  中的商品图片名称一致。
-          </div>
-        </div>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="isItemImportDialogShow = false">取消</el-button>
-            <el-button type="primary" @click="handleUpload">上传</el-button>
-          </span>
-        </template>
-      </el-dialog>
+      
+      <!-- 文件导入弹窗 -->
+      <ImportDialog 
+        v-model:isShow="isItemImportDialogShow"
+        type="product"
+        @upload-success="handelUploadSuccess"></ImportDialog>
     </div>
 
-    <!-- 错误提示 -->
-    <el-dialog
-      v-model="isTipShow"
-      width="400px"
-      title="12132312"
-      align-center
-      :show-close="false"
-    >
-    <template #title>
-      <div class="tip-header">
-        <img src="../../../assets/img/purchase/warning.png" />
-        <span>上传失败</span>
-      </div>
-    </template>
-      <div class="dialog-tips">{{ tipText }}</div>
-
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button
-            type="primary"
-            style="margin-top: 30px"
-            @click="isTipShow = false"
-          >
-          知道了
-          </el-button>
-        </span>
-      </template>
-    </el-dialog>
-
-    <!-- 导入loading -->
-    <ImportLoading 
-      :isShow="isImportLoading"
-      :text="loadingText"
-      >
-    </ImportLoading>
 
     <TaskDetail 
       v-if="isTaskDetailShow"
@@ -354,89 +273,6 @@
 <script src="./vmModule.js"></script>
 
 <style scoped lang="scss">
-.itemImport {
-  padding-bottom: 20px;
-  .file-item {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-bottom: 60px;
-    .label {
-      font-size: 14px;
-      font-family: Microsoft YaHei;
-      font-weight: 400;
-      color: #2D323C;
-      width: 123px;
-      .required {
-        color: #FF5353;
-      }
-    }
-    .form {
-      flex: 1;
-      display: flex;
-      ::v-deep .el-upload {
-        width: 100%;
-        height: 100%;
-        overflow: visible;
-        border: none;
-      }
-      .input {
-        margin-right: 10px;
-      }
-      .choose-btn {
-        width: 60px;
-        height: 28px;
-        background: #FFFFFF;
-        border: 1px solid #579FF6;
-        border-radius: 4px;
-        font-size: 14px;
-        font-family: Microsoft YaHei;
-        font-weight: 400;
-        color: #4391EE;
-        line-height: 28px;
-        text-align: center;
-        cursor: pointer;
-      }
-    }
-    .file-tips {
-      font-size: 14px;
-      font-family: Microsoft YaHei;
-      font-weight: 400;
-      color: #767B83;
-      position: absolute;
-      left: 123px;
-      top: calc(100% + 12px);
-    }
-  }
-  .tips {
-    font-size: 14px;
-    font-family: Microsoft YaHei;
-    color: #E48F16;
-    line-height: 24px;
-    background: #FDF3D1;
-    border-radius: 6px;
-    padding: 14px;
-  }
-}
-.tip-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  font-family: Microsoft YaHei;
-  font-weight: bold;
-  color: #2D323C;
-  line-height: 42px;
-  span {
-    margin-left: 9px;
-  }
-}
-.dialog-tips {
-  text-align: center;
-  font-size: 14px;
-  font-family: Microsoft YaHei;
-  font-weight: 400;
-  color: #2D323C;
-  line-height: 24px;
-}
+
+
 </style>

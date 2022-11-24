@@ -1,6 +1,5 @@
 <!-- 文件导入loading -->
 <template>
-  <!-- loading -->
   <div class="loading-mask" v-if="isShow">
     <div class="loading-box">
       <div class="loading"></div>

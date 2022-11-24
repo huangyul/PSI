@@ -24,13 +24,11 @@ const service = axios.create({
   timeout: 0,
 })
 
-console.log(service)
 
 let loading
 
 service.interceptors.request.use(
   (config) => {
-    console.log(config)
     loading = ElLoading.service({
       lock: true,
       text: 'Loading',
@@ -76,23 +74,23 @@ service.interceptors.response.use(
         type: 'error',
       })
 
-      setTimeout(function () {
-        if (localStorage.getItem('userType') == '3') {
-          router.push('/login')
-        } else {
-          var url = './table.json'
+      // setTimeout(function () {
+      //   if (localStorage.getItem('userType') == '3') {
+      //     router.push('/login')
+      //   } else {
+      //     var url = './table.json'
 
-          axios
-            .get(url)
-            .then((res) => {
-              window.location.href = 'http://' + res.data.yunhoutaiUrl
-              window.localStorage.clear() //清除所有key
-            })
-            .catch((err) => {
-              ElMessage.warning({ message: err, type: 'warning' })
-            })
-        }
-      }, 3000)
+      //     axios
+      //       .get(url)
+      //       .then((res) => {
+      //         window.location.href = 'http://' + res.data.yunhoutaiUrl
+      //         window.localStorage.clear() //清除所有key
+      //       })
+      //       .catch((err) => {
+      //         ElMessage.warning({ message: err, type: 'warning' })
+      //       })
+      //   }
+      // }, 3000)
     } else {
       if (error.response.status == 400) {
         ElMessage.error(error.response.data)
