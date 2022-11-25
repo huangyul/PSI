@@ -15,6 +15,14 @@ const getBaseUrl = () => {
   })
 }
 
+// 不需要全局loading的接口
+const notLoadingUrls = [
+  '/api/File/UploadFileNew',
+  '/api/Item/ImportItemAndPhoto',
+  '/api/Item/UpdateItemUploadInfo',
+  '/api/Item/GetItemUploadFileList',
+]
+
 const service = axios.create({
   // process.env.NODE_ENV === 'development' 来判断是否开发环境
   // easy-mock服务挂了，暂时不使用了
@@ -24,16 +32,18 @@ const service = axios.create({
   timeout: 0,
 })
 
-
-let loading
+let loading = null
 
 service.interceptors.request.use(
   (config) => {
-    loading = ElLoading.service({
-      lock: true,
-      text: 'Loading',
-      background: 'rgba(0, 0, 0, 0.7)',
-    })
+    if (!notLoadingUrls.includes(config.url)) {
+      loading = ElLoading.service({
+        lock: true,
+        text: 'Loading',
+        background: 'rgba(0, 0, 0, 0.7)',
+      })
+    }
+
     //var url1 = 'http://192.168.66.131:8055/api/UserLoginInfo/CreateUserLogin?userCode='+'10001'+'&userType='+1;
     //var url1 = '/api/UserLoginInfo/CreateUserLogin?userCode=' + '10001' + '&userType=' + 1;
     // 历史遗留
@@ -51,14 +61,18 @@ service.interceptors.request.use(
   },
   (error) => {
     console.log(error)
-    loading.close()
+    if (loading) {
+      loading.close()
+    }
     return Promise.reject()
   }
 )
 
 service.interceptors.response.use(
   (response) => {
-    loading.close()
+    if (loading) {
+      loading.close()
+    }
     if (response.status === 200) {
       return response.data
     } else {
@@ -66,31 +80,32 @@ service.interceptors.response.use(
     }
   },
   (error) => {
-    loading.close()
+    if (loading) {
+      loading.close()
+    }
     const { response } = error
     if (!error.response) {
       ElMessage({
         message: '登录过期，请重新登录',
         type: 'error',
       })
+      setTimeout(function () {
+        if (localStorage.getItem('userType') == '3') {
+          router.push('/login')
+        } else {
+          var url = './table.json'
 
-      // setTimeout(function () {
-      //   if (localStorage.getItem('userType') == '3') {
-      //     router.push('/login')
-      //   } else {
-      //     var url = './table.json'
-
-      //     axios
-      //       .get(url)
-      //       .then((res) => {
-      //         window.location.href = 'http://' + res.data.yunhoutaiUrl
-      //         window.localStorage.clear() //清除所有key
-      //       })
-      //       .catch((err) => {
-      //         ElMessage.warning({ message: err, type: 'warning' })
-      //       })
-      //   }
-      // }, 3000)
+          axios
+            .get(url)
+            .then((res) => {
+              window.location.href = 'http://' + res.data.yunhoutaiUrl
+              window.localStorage.clear() //清除所有key
+            })
+            .catch((err) => {
+              ElMessage.warning({ message: err, type: 'warning' })
+            })
+        }
+      }, 3000)
     } else {
       if (error.response.status == 400) {
         ElMessage.error(error.response.data)

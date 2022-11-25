@@ -8,9 +8,11 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { uploadFile, dispatchImport } from '../../../api/apiv2/common'
 import RangeDate from '../../../components/rangeDate.vue'
 import { revokeDispatch } from '../../../api/apiv2/oldModule.js'
+import TaskDetail from '../../../components/TaskDetail.vue'
+import ImportDialog from '../../../components/import-component/ImportDialog..vue'
 export default {
   name: 'ExternalTransferOutBase',
-  components: { RangeDate },
+  components: { RangeDate, TaskDetail, ImportDialog },
   data() {
     return {
       permissionsList: '',
@@ -82,6 +84,9 @@ export default {
       fileList: [],
       revokeList: [],
       tipDialogShow: false,
+      isItemImportDialogShow: false,
+      isTaskDetailShow: false,
+      taskId: '',
     }
   },
   methods: {
@@ -1048,6 +1053,16 @@ export default {
       ElMessage.success('撤销成功')
       this.tipDialogShow = false
       this.eventSearch()
+    },
+    // 导入
+    onItemImport() {
+      this.isItemImportDialogShow = true
+    },
+
+    handelUploadSuccess(id) {
+      this.taskId = id
+      this.isItemImportDialogShow = false
+      this.isTaskDetailShow = true
     },
   },
   mounted() {

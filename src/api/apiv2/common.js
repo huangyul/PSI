@@ -77,7 +77,7 @@ export function downloadFile(path, isDelete = 1) {
  */
 export function uploadFileNew(importType, fileList) {
   return request({
-    url: 'api/File/UploadFileNew',
+    url: '/api/File/UploadFileNew',
     method: 'post',
     params: {
       userCode: localStorage.getItem('UserCode'),

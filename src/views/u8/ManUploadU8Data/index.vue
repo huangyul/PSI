@@ -94,7 +94,6 @@
       v-model="isDialogShow"
       title=""
       width="400px"
-      align-center
       :show-close="false"
     >
       <div class="sr-flex sr-col-center">

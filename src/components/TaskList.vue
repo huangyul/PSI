@@ -116,6 +116,8 @@
     watch: {
       isShow(val) {
         if (val) {
+          this.activeName = '1'
+          this.searchForm.importType = 1
           this.init()
         }
       },

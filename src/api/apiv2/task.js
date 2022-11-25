@@ -18,3 +18,12 @@ export function getTaskDetail(data) {
     params: data,
   })
 }
+
+// 更新任务状态（是否已读）
+export function updateTaskStatus(data) {
+  return request({
+    url: '/api/Item/UpdateItemUploadInfo',
+    method: 'put',
+    params: data,
+  })
+}

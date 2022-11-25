@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="商品管理导入"
+    :title="title"
     :width="600"
     v-model="isShow"
     :before-close="handleBeforeClose"
@@ -97,6 +97,24 @@
     },
     components: { ErrorTip, ImportLoading },
     emits: ['update:isShow', 'upload-success'],
+    computed: {
+      title() {
+        switch (this.type) {
+          case 'product': {
+            return '商品管理导入'
+          }
+          case 'plan': {
+            return '采购计划导入'
+          }
+          case 'order': {
+            return '采购订单导入'
+          }
+          case 'dispatch': {
+            return '外部调拨导入'
+          }
+        }
+      },
+    },
     data() {
       return {
         dataFileName: '',
@@ -161,32 +179,39 @@
       },
       // 点击上传
       async handleUpload() {
-        if (!this.dataFile) {
-          ElMessage.warning('请先选择导入文件，再进行上传操作')
-          return
-        }
-        const formData = new FormData()
-        if (this.dataFile) {
-          formData.append(
-            this.dataFileName,
-            dataURLToFile(this.dataFile, this.dataFileName)
+        try {
+          if (!this.dataFile) {
+            ElMessage.warning('请先选择导入文件，再进行上传操作')
+            return
+          }
+          const formData = new FormData()
+          if (this.dataFile) {
+            formData.append(
+              this.dataFileName,
+              dataURLToFile(this.dataFile, this.dataFileName)
+            )
+          }
+          if (this.imageFile) {
+            formData.append(
+              this.imageFile,
+              dataURLToFile(this.imageFileName, this.imageFileName)
+            )
+          }
+          this.loadingText = '文件上传中...'
+          this.isLoadingShow = true
+          const res = await uploadFileNew(
+            uploadTypeMap.get(this.type),
+            formData
           )
-        }
-        if (this.imageFile) {
-          formData.append(
-            this.imageFile,
-            dataURLToFile(this.imageFileName, this.imageFileName)
-          )
-        }
-        this.loadingText = '文件上传中...'
-        this.isLoadingShow = true
-        const res = await uploadFileNew(uploadTypeMap.get(this.type), formData)
-        await dealUploadFile()
-        this.loadingText = '上传成功，文件正在处理...'
-        setTimeout(() => {
+          await dealUploadFile()
+          this.loadingText = '上传成功，文件正在处理...'
+          setTimeout(() => {
+            this.isLoadingShow = false
+            this.$emit('upload-success', res.Msg)
+          }, 3000)
+        } catch (err) {
           this.isLoadingShow = false
-          this.$emit('upload-success', res.Msg)
-        }, 3000)
+        }
       },
     },
   }

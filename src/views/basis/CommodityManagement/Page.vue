@@ -273,6 +273,4 @@
 <script src="./vmModule.js"></script>
 
 <style scoped lang="scss">
-
-
 </style>

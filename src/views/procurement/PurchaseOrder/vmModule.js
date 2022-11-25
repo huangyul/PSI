@@ -18,9 +18,10 @@ import {
   purchaseTemplateExport,
   downloadFile,
 } from '../../../api/apiv2/common'
-
+import TaskDetail from '../../../components/TaskDetail.vue'
+import ImportDialog from '../../../components/import-component/ImportDialog..vue'
 export default {
-  components: { RangeDate },
+  components: { RangeDate, TaskDetail, ImportDialog },
   name: 'PurchaseOrder',
   data() {
     return {
@@ -109,6 +110,9 @@ export default {
       tipDialogShow: false,
       countDown: 0,
       timer: null,
+      isItemImportDialogShow: false,
+      isTaskDetailShow: false,
+      taskId: '',
     }
   },
   computed: {
@@ -1378,6 +1382,17 @@ export default {
         this.orderType = ''
       }
       this.eventSearch()
+    },
+
+    // 导入
+    onItemImport() {
+      this.isItemImportDialogShow = true
+    },
+
+    handelUploadSuccess(id) {
+      this.taskId = id
+      this.isItemImportDialogShow = false
+      this.isTaskDetailShow = true
     },
   },
   mounted() {

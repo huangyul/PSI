@@ -15,29 +15,31 @@
 						<span>帮助</span>
 					</router-link>
 				</div> -->
-      <div class="sr-flex">
-        <div class="message" @click="$emit('openTaskList')">
-          消息
-          <span class="message-number">12</span>
+    <div class="sr-flex">
+      <div class="message" @click="$emit('openTaskList')">
+        <div class="image">
+          <img src="../assets/img/task.png" />
+          <div class="hot-dot" v-show="taskList.length > 0"></div>
         </div>
-        <el-dropdown class="user-name" trigger="click" @command="handleCommand">
-          <span class="el-dropdown-link">
-            {{ username }}
-            <i class="el-icon-caret-bottom"></i>
-          </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <!-- <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
+        任务
+      </div>
+      <el-dropdown class="user-name" trigger="click" @command="handleCommand">
+        <span class="el-dropdown-link">
+          {{ username }}
+          <i class="el-icon-caret-bottom"></i>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <!-- <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
                         </a>
                         <el-dropdown-item command="user">个人中心</el-dropdown-item>
                         <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item> -->
-              <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
-
+            <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
 
     <el-dialog
       :title="'预警提示'"
@@ -118,6 +120,12 @@
       </span>
     </el-dialog>
   </div>
+
+  <TaskDetail
+    v-model:is-show="isTaskDetailShow"
+    v-if="isTaskDetailShow"
+    :transactionId="taskId"
+  ></TaskDetail>
 </template>
 <script>
   import func from '../../src/views/func.js'
@@ -126,6 +134,10 @@
   import { useRouter } from 'vue-router'
   import axios from 'axios'
   import router from '../router'
+  import { getTaskList, updateTaskStatus } from '../api/apiv2/task'
+  import { ElNotification } from 'element-plus'
+  import { h } from 'vue'
+  import TaskDetail from './TaskDetail.vue'
   export default {
     emits: ['openTaskList'],
     data() {
@@ -144,8 +156,12 @@
         ],
         IsCommitInventory: true,
         isShowTable: false,
+        taskList: [],
+        taskId: '',
+        isTaskDetailShow: false,
       }
     },
+    components: { TaskDetail },
     methods: {
       //点击盘点去在库盘库
       eventGoInStockCheckStock() {
@@ -193,9 +209,7 @@
             } else {
               if (res.data.Success == true) {
                 this.IsCommitInventory = res.data.data.IsCommitInventory
-                if(
-                  this.permissionsListU8?.Rights?.Query
-                ) {
+                if (this.permissionsListU8?.Rights?.Query) {
                   this.warningList[0].Count = res.data.data.ErrorToU8
                 } else {
                   this.warningList[0].Count = -1
@@ -245,7 +259,7 @@
                   this.isShowTable = false
                 }
                 // 警告数量为0的不显示
-                this.warningList = this.warningList.filter(i => {
+                this.warningList = this.warningList.filter((i) => {
                   return i.Count > 0
                 })
                 if (
@@ -265,6 +279,68 @@
             this.$message({ message: err, type: 'warning' })
           })
       },
+      // 获取任务的新消息
+      async fetchTaskStatus() {
+        const res = await getTaskList({
+          startTime: localStorage.getItem('loginTime'),
+          userCode: localStorage.getItem('UserCode'),
+          importType: 0,
+          status: 3,
+          page: 1,
+          pageSize: 10000,
+        })
+        res.Results.forEach((i) => {
+          if (!this.taskList.includes(i.ID)) {
+            this.taskList.push(i.ID)
+            setTimeout(() => {
+              let notification = ElNotification({
+                title: '任务完成',
+                message: h('div', {}, [
+                  h('span', `ID:${i.ID}采购计划导入任务完成，点击`),
+                  h(
+                    'span',
+                    {
+                      style:
+                        'cursor: pointer; color: #428feb;text-decoration:underline',
+                      onclick: async () => {
+                        for (
+                          let index = 0;
+                          index < this.taskList.length;
+                          index++
+                        ) {
+                          if (this.taskList[index] == i.ID) {
+                            this.taskList.splice(index, 1)
+                            break
+                          }
+                        }
+                        notification.close()
+                        await updateTaskStatus({ transactionId: i.ID })
+                        this.taskId = i.ID
+                        this.isTaskDetailShow = true
+                      },
+                    },
+                    '查看详情'
+                  ),
+                ]),
+                type: 'success',
+                duration: 0,
+                onClose: async () => {
+                  console.log(12312322)
+                  for (let index = 0; index < this.taskList.length; index++) {
+                    if (this.taskList[index] == i.ID) {
+                      this.taskList.splice(index, 1)
+                      break
+                    }
+                  }
+                  notification.close()
+                  console.log(12312)
+                  await updateTaskStatus({ transactionId: i.ID })
+                },
+              })
+            }, 0)
+          }
+        })
+      },
     },
     mounted() {
       func.that = this
@@ -273,7 +349,7 @@
         return
       }
       var AllPromossions = JSON.parse(localStorage.getItem('permissions'))
-      this.permissionsListU8 = AllPromossions.find(i => {
+      this.permissionsListU8 = AllPromossions.find((i) => {
         return i.ModuleUrl == 'ManUploadU8Data'
       })
       this.permissionsListMax = AllPromossions.find(function (item) {
@@ -290,6 +366,13 @@
         localStorage.setItem('apiUrl', res.data.apiUrl)
         this.funcLoadWaning(res.data.apiUrl)
       })
+      // 获取任务更新提示
+      setTimeout(() => {
+        this.fetchTaskStatus()
+      }, 2000)
+      setInterval(() => {
+        this.fetchTaskStatus()
+      }, 1000 * 10)
     },
     setup() {
       const username = localStorage.getItem('ms_username')
@@ -384,8 +467,25 @@
   .header .message {
     margin-right: 30px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
 
+  .header .message .image {
+    position: relative;
+    margin-right: 4px;
+    height: 16px;
+  }
+  .header .message .image .hot-dot {
+    content: ' ';
+    position: absolute;
+    background-color: red;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    right: 0;
+    top: 0;
+  }
   .header .message .message-number {
     background: #f9c02e;
     padding: 1px 6px;

@@ -146,6 +146,7 @@
             //console.log(res);
             var token = 'Bearer ' + res.data.Token
             localStorage.setItem('Token', token)
+            localStorage.setItem('loginTime', new Date().toLocaleDateString().replaceAll('/', '-'))
             localStorage.setItem('Expires', res.data.Expires)
             let Expires = new Date().getTime()
             Expires = Expires + (outTime - 3600 + 30) * 1000
@@ -257,6 +258,7 @@
             //console.log(res);
             var token = 'Bearer ' + res.data.Token
             localStorage.setItem('Token', token)
+            localStorage.setItem('loginTime', new Date().toLocaleDateString().replaceAll('/', '-'))
             //localStorage.setItem("ms_usercode", param.username);
             //localStorage.setItem("Expires", res.data.Expires);
             localStorage.setItem('UserCode', res.data.UserCode)
@@ -306,7 +308,7 @@
                 localStorage.setItem('leftMenus', JSON.stringify(res.data)) ///获取可以进去的菜单
                 localStorage.setItem('permissions', JSON.stringify(arr)) ///获取可以进去哪些页面信息
 
-                // TODO 是否需要token校验，如果不需要直接这样使用，如果需要则启动下面注释的代码块
+
                 var UserInfoUrl = port + '/api/UserLoginInfo/GetUserInfo'
                 axios
                   .get(UserInfoUrl)
@@ -316,7 +318,6 @@
                     localStorage.setItem('userCode', res.data.AccountCode) //测试环境参数，用户登录帐号
                     localStorage.setItem('userType', res.data.OrganizationType) //测试环境参数，用户类型 0-总部用户 1-门店用户
                     localStorage.setItem('OrganizationId', res.data.TopOrgId) //组织ID，辨别客户
-
                     var OrgsUrl = port + '/api/UserLoginInfo/GetOrgsFromUser'
                     axios
                       .get(OrgsUrl)
@@ -333,7 +334,7 @@
                   .catch((err) => {
                     ElMessage.error(err)
                   })
-
+                // TODO 是否需要token校验，如果不需要直接这样使用，如果需要则启动下面注释的代码块
                 // axios
                 //   .get(
                 //     `${port}/api/UserLoginInfo/IsUserToken?tokenId=${route.query.TokenId}`

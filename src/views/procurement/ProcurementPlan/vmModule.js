@@ -5,8 +5,9 @@ import func from '../../func.js'
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import RangeDateVue from '../../../components/rangeDate.vue'
 import { h } from 'vue'
+import TaskDetail from '../../../components/TaskDetail.vue'
+import ImportDialog from '../../../components/import-component/ImportDialog..vue'
 export default {
-  components: { RangeDateVue },
   name: 'ProcurementPlan',
   data() {
     return {
@@ -61,8 +62,12 @@ export default {
       isEditShopName: false,
       tipDialogShow: false,
       errMessage: '', // 提示弹窗重复的采购单编号
+      isItemImportDialogShow: false,
+      isTaskDetailShow: false,
+      taskId: '',
     }
   },
+  components: { TaskDetail, ImportDialog, RangeDateVue },
   methods: {
     funcGetTableData(
       shopInfo,
@@ -873,6 +878,17 @@ export default {
         }
       }
       return true
+    },
+
+    // 导入
+    onItemImport() {
+      this.isItemImportDialogShow = true
+    },
+
+    handelUploadSuccess(id) {
+      this.taskId = id
+      this.isItemImportDialogShow = false
+      this.isTaskDetailShow = true
     },
   },
   mounted() {
