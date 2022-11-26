@@ -24,7 +24,10 @@
         <div class="summary-box">
           <div class="summary-item">
             <span>导入原文件：</span>{{ data?.FileName
-            }}<button @click="getFileDownUrl(data?.FilePath)">
+            }}<button
+              @click="getFileDownUrl(data?.FilePath)"
+              style="min-width: 84px; height: 28px"
+            >
               下载原文件
             </button>
           </div>
@@ -118,7 +121,7 @@
             })
           } else {
             const res = await downloadFile(path, 0)
-            const fileName = path.split('_').pop()
+            const fileName = path.split('/').pop()
             this.download(res, fileName)
           }
         }
@@ -196,6 +199,7 @@
       border: 1px solid #d9dbdd;
       .summary-item {
         line-height: 28px;
+        display: flex;
         span {
           text-align: right;
           width: 150px;

@@ -194,7 +194,7 @@
           if (this.imageFile) {
             formData.append(
               this.imageFile,
-              dataURLToFile(this.imageFileName, this.imageFileName)
+              dataURLToFile(this.imageFile, this.imageFileName)
             )
           }
           this.loadingText = '文件上传中...'
