@@ -11,8 +11,7 @@ export default {
   },
   resolve: {
     alias: { 
-      '@': _resolve('src'),
-      'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js' 
+      '@': _resolve('src')
     },
   },
   server: {

@@ -281,6 +281,12 @@
       },
       // 获取任务的新消息
       async fetchTaskStatus() {
+        const importTypeMap = new Map([
+          [1, '商品管理'],
+          [2, '采购计划'],
+          [3, '采购订单'],
+          [4, '外部调拨'],
+        ])
         const res = await getTaskList({
           startTime: localStorage.getItem('loginTime'),
           userCode: localStorage.getItem('UserCode'),
@@ -296,12 +302,18 @@
               let notification = ElNotification({
                 title: '任务完成',
                 message: h('div', {}, [
-                  h('span', `ID:${i.ID}采购计划导入任务完成，点击`),
+                  h(
+                    'span',
+                    {},
+                    `ID:${i.ID}${importTypeMap.get(
+                      i.ImportType
+                    )}导入任务完成，点击`
+                  ),
                   h(
                     'span',
                     {
                       style:
-                        'cursor: pointer; color: #428feb;text-decoration:underline',
+                        'cursor: pointer; color: #428feb;text-decoration:underline;',
                       onclick: async () => {
                         for (
                           let index = 0;
@@ -325,7 +337,6 @@
                 type: 'success',
                 duration: 0,
                 onClose: async () => {
-                  console.log(12312322)
                   for (let index = 0; index < this.taskList.length; index++) {
                     if (this.taskList[index] == i.ID) {
                       this.taskList.splice(index, 1)
@@ -333,7 +344,6 @@
                     }
                   }
                   notification.close()
-                  console.log(12312)
                   await updateTaskStatus({ transactionId: i.ID })
                 },
               })

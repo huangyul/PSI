@@ -22,20 +22,21 @@ const notLoadingUrls = [
   '/api/Item/UpdateItemUploadInfo',
   '/api/Item/GetItemUploadFileList',
 ]
-
 const service = axios.create({
   // process.env.NODE_ENV === 'development' 来判断是否开发环境
   // easy-mock服务挂了，暂时不使用了
   // baseURL: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
-  baseURL: await getBaseUrl(),
+  baseURL: '',
   method: 'get',
   timeout: 0,
 })
-
 let loading = null
 
 service.interceptors.request.use(
-  (config) => {
+  async (config) => {
+    if (!config.baseURL) {
+      config.baseURL = await getBaseUrl()
+    }
     if (!notLoadingUrls.includes(config.url)) {
       loading = ElLoading.service({
         lock: true,
