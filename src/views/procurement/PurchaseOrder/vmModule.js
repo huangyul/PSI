@@ -1415,6 +1415,9 @@ export default {
     }
     this.searchForm.startTime = new Date()
     this.searchForm.endTime = new Date()
+    this.mittBus.on('close-detail', () => {
+      this.isTaskDetailShow = false
+    })
   },
   watch: {
     productShopInfo(newVal, oldVal) {

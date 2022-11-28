@@ -155,27 +155,27 @@
           ].includes(file.type)
         ) {
           ElMessage.warning('仅支持 *.xls, *.xlsx')
-          return false
+          return Promise.reject(false)
         }
         this.dataFile = await fileToBase64(file)
         this.dataFileName = file.name
-        return false
+        return Promise.reject(false)
       },
       // 获取选择的图片压缩包
       async handleBeforeImageUpload(file) {
         if (file.type != 'application/zip') {
           ElMessage.warning('仅支持 *.zip')
-          return false
+          return Promise.reject(false)
         }
         // 限制文件大小
         if (file.size > 100 * 1024 * 1024) {
           this.errorText = `${file.name}文件大小不能超过100M哦，请重新导入`
           this.isErrorTipShow = true
-          return false
+          return Promise.reject(false)
         }
         this.imageFile = await fileToBase64(file)
         this.imageFileName = file.name
-        return false
+        return Promise.reject(false)
       },
       // 点击上传
       async handleUpload() {

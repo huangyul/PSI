@@ -1076,6 +1076,9 @@ export default {
     }).Rights
     this.funcGetTemplate()
     this.getExCompany()
+    this.mittBus.on('close-detail', () => {
+      this.isTaskDetailShow = false
+    })
   },
   watch: {
     'searchForm.searchCondition.warehouseCode'(newVal, oldVal) {

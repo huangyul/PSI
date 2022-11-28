@@ -589,6 +589,9 @@ export default {
     Bus.on('CommodityManagementGetTableData', () => {
       this.eventSearch()
     })
+    this.mittBus.on('close-detail', () => {
+      this.isTaskDetailShow = false
+    })
   },
   watch: {},
 }

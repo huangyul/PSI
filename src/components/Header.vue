@@ -325,6 +325,7 @@
                             break
                           }
                         }
+                        this.mittBus.emit('close-detail')
                         notification.close()
                         await updateTaskStatus({ transactionId: i.ID })
                         this.taskId = i.ID

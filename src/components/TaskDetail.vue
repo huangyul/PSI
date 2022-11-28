@@ -47,6 +47,13 @@
               下载错误数据
             </button>
           </div>
+          <div
+            class="summary-item"
+            v-if="data.Status == 2 && data.FailNum == 0"
+          >
+            <span>失败原因：</span>
+            <span class="error-reason">{{ data.Messages }}</span>
+          </div>
           <p class="tips">
             <Warning style="width: 16px; margin-right: 6px" />
             <span v-if="data?.Status == -1 || data?.Status == 0">
@@ -204,6 +211,10 @@
           text-align: right;
           width: 150px;
           display: inline-block;
+        }
+        .error-reason {
+          color: #fd7575;
+          width: auto;
         }
       }
       .tips {

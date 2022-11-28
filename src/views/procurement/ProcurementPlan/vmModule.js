@@ -910,6 +910,9 @@ export default {
         this.permissionsList = item.Rights
       }
     }
+    this.mittBus.on('close-detail', () => {
+      this.isTaskDetailShow = false
+    })
   },
   watch: {
     'productSearchForm.shopInfo'(newVal, oldVal) {

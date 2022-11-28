@@ -6,6 +6,7 @@ import installElementPlus from './plugins/element'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import './assets/css/icon.css'
+import mitt from "mitt";
 
 import axios from 'axios'
 import print from 'vue3-print-nb'
@@ -89,6 +90,7 @@ axios.interceptors.response.use(
   }
 )
 
+app.config.globalProperties.mittBus = new mitt()
 app.config.globalProperties.$axios = axios
 
 //异步请求前判断请求的连接是否需要token
