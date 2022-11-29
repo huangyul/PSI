@@ -1079,6 +1079,9 @@ export default {
     this.mittBus.on('close-detail', () => {
       this.isTaskDetailShow = false
     })
+    this.mittBus.on('on-dispatch-refresh', () => {
+      this.eventSearch()
+    })
   },
   watch: {
     'searchForm.searchCondition.warehouseCode'(newVal, oldVal) {

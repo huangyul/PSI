@@ -145,13 +145,23 @@
         switch (this.data?.ImportType) {
           case 1: {
             this.$router.push('/CommodityManagement')
+            this.mittBus.emit('on-product-refresh')
             break
           }
           case 2: {
+            this.$router.push('/ProcurementPlan')
+            this.mittBus.emit('on-plan-refresh')
+            break
           }
           case 3: {
+            this.$router.push('/PurchaseOrder')
+            this.mittBus.emit('on-order-refresh')
+            break
           }
           case 4: {
+            this.$router.push('/ExternalTransferOutBase')
+            this.mittBus.emit('on-dispatch-refresh')
+            break
           }
         }
         this.$emit('update:isShow', false)

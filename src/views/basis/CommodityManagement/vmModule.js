@@ -592,6 +592,9 @@ export default {
     this.mittBus.on('close-detail', () => {
       this.isTaskDetailShow = false
     })
+    this.mittBus.on('on-product-refresh', () => {
+      this.eventSearch()
+    })
   },
   watch: {},
 }

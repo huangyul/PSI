@@ -10,8 +10,8 @@ export default {
     include: ['schart.js'],
   },
   resolve: {
-    alias: { 
-      '@': _resolve('src')
+    alias: {
+      '@': _resolve('src'),
     },
   },
   server: {

@@ -122,8 +122,8 @@ export default {
       try {
         await U8BatchUpload()
       } catch (err) {
-      } finally {
         this.isDialogShow = false
+      } finally {
       }
     },
   },

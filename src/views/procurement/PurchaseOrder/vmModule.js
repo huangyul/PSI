@@ -1418,6 +1418,9 @@ export default {
     this.mittBus.on('close-detail', () => {
       this.isTaskDetailShow = false
     })
+    this.mittBus.on('on-order-refresh', () => {
+      this.eventSearch()
+    })
   },
   watch: {
     productShopInfo(newVal, oldVal) {

@@ -193,7 +193,7 @@
           }
           if (this.imageFile) {
             formData.append(
-              this.imageFile,
+              this.imageFileName,
               dataURLToFile(this.imageFile, this.imageFileName)
             )
           }

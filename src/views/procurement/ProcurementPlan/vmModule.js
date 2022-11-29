@@ -913,6 +913,9 @@ export default {
     this.mittBus.on('close-detail', () => {
       this.isTaskDetailShow = false
     })
+    this.mittBus.on('on-plan-refresh', () => {
+      this.eventSearch()
+    })
   },
   watch: {
     'productSearchForm.shopInfo'(newVal, oldVal) {
