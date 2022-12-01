@@ -3,7 +3,7 @@
     <el-table :data="data" :height="500">
       <el-table-column label="ID" prop="ID" width="180">
         <template #default="{ row }">
-          <span class="can-click" @click="openDetail(row)">{{ row.ID }}</span>
+          <span class="can-click" @click="openDetail(row)">{{ row?.ID }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -14,8 +14,8 @@
       <el-table-column label="导入文件名" prop="FileName"></el-table-column>
       <el-table-column label="状态" prop="Status" width="100">
         <template #default="{ row }">
-          <span :style="{ color: textColorMap.get(row.Status).color }">{{
-            textColorMap.get(row.Status).text
+          <span :style="{ color: textColorMap.get(row?.Status).color }">{{
+            textColorMap.get(row?.Status)?.text
           }}</span>
         </template>
       </el-table-column>
@@ -32,7 +32,6 @@
     </el-table>
   </div>
   <TaskDetail
-    v-if="isDetailShow"
     v-model:is-show="isDetailShow"
     :transactionId="currentId"
     @to-list="toList"

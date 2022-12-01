@@ -4,7 +4,7 @@
     <el-date-picker
       style="margin-right: 10px"
       v-model="start"
-      type="date"
+      :type="type"
       :disabled="disabled"
       placeholder="开始日期"
       :disabled-date="startValidator"
@@ -12,7 +12,7 @@
     <el-date-picker
       style="margin-left: 10px"
       v-model="end"
-      type="date"
+      :type="type"
       :disabled="disabled"
       placeholder="结束日期"
       :disabled-date="endValidator"
@@ -39,12 +39,17 @@
         type: Boolean,
         default: false,
       },
+      type: {
+        type: String,
+        default: 'date',
+      },
     },
     watch: {
       propsStart: {
         immediate: true,
         handler(value) {
           if (value) {
+            console.log(value)
             this.start = value
           } else {
             this.start = ''
@@ -88,7 +93,11 @@
         }
       },
       formatDate(date) {
-        return new Date(date).toLocaleDateString().replace(/\//g, '-')
+        if (this.type == 'date') {
+          return new Date(date).toLocaleDateString().replace(/\//g, '-')
+        } else if (this.type == 'datetime') {
+          return new Date(date).toLocaleString().replace(/\//g, '-')
+        }
       },
     },
   }

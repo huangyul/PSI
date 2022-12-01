@@ -7,7 +7,7 @@
       top="5vh"
       @close="$emit('update:isShow', false)"
     >
-      <div class="desc">
+      <div class="desc" v-if="data">
         <div>任务类型：{{ importTypeMap.get(data?.ImportType) }}</div>
         <div>
           状态：
@@ -19,7 +19,7 @@
         <div>操作员：{{ data?.Creater }}</div>
         <div>任务结束时间：{{ data?.EndTime }}</div>
       </div>
-      <div class="summary">
+      <div class="summary" v-if="data">
         <div class="title">详情</div>
         <div class="summary-box">
           <div class="summary-item">
@@ -42,7 +42,7 @@
             <span>错误数据：</span>{{ data?.FailNum
             }}<button
               v-if="data?.Status == 2 && data?.FailNum > 0"
-              @click="getFileDownUrl(data?.ErrFilePath)"
+              @click="getErrorFileDownUrl(data?.ErrFilePath)"
             >
               下载错误数据
             </button>
@@ -106,6 +106,16 @@
         ]),
       }
     },
+    watch: {
+      isShow: {
+        immediate: true,
+        handler(val) {
+          if (val) {
+            this.init()
+          }
+        },
+      },
+    },
     mounted() {
       this.init()
     },
@@ -113,6 +123,11 @@
       async init() {
         const res = await getTaskDetail({ transactionId: this.transactionId })
         this.data = res
+      },
+      async getErrorFileDownUrl(path) {
+        const res = await downloadFile(path, 0)
+        const fileName = path.split('\\').pop()
+        this.download(res, fileName)
       },
       async getFileDownUrl(path) {
         if (!path) {
@@ -134,6 +149,7 @@
         }
       },
       download(file, fileName) {
+        console.log(fileName)
         const link = document.createElement('a')
         link.href = window.URL.createObjectURL(file)
         link.download = fileName

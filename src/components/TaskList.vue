@@ -13,6 +13,7 @@
             <div class="item-label">任务创建时间</div>
             <div class="item-form">
               <RangeDate
+                type="datetime"
                 v-model:propsStart="searchForm.startTime"
                 v-model:propsEnd="searchForm.endTime"
               ></RangeDate>
@@ -98,8 +99,14 @@
           status: -2,
           importType: 1,
           fileName: '',
-          startTime: '',
-          endTime: '',
+          startTime: new Date().toLocaleString(),
+          endTime: new Date(
+            new Date(
+              new Date().getFullYear(),
+              new Date().getMonth(),
+              new Date().getDate() + 1
+            ).getTime() - 1000
+          ).toLocaleString(),
         },
         statusList: [
           { label: '全部', value: -2 },
@@ -128,8 +135,14 @@
         this.init()
       },
       reset() {
-        this.searchForm.endTime = ''
-        this.searchForm.startTime = ''
+        this.searchForm.endTime = new Date(
+          new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate() + 1
+          ).getTime() - 1000
+        ).toLocaleString()
+        this.searchForm.startTime = new Date().toLocaleString()
         this.searchForm.fileName = ''
         this.searchForm.status = -2
       },
@@ -178,15 +191,13 @@
           color: #767b83;
           border: 1px solid #d9dbdd;
         }
-        .item-form {
-        }
       }
     }
     ::v-deep .el-input {
       width: 180px !important;
     }
     ::v-deep .el-date-editor {
-      width: 140px !important;
+      width: 200px !important;
     }
   }
   .footer button {

@@ -1,5 +1,5 @@
 <template>
-  <div class="tags" v-if="showTags" id="tags">
+  <div class="tags" v-show="showTags" id="tags">
     <ul>
       <li
         class="tags-li"

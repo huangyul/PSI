@@ -163,7 +163,13 @@
       },
       // 获取选择的图片压缩包
       async handleBeforeImageUpload(file) {
-        if (file.type != 'application/zip') {
+        if (
+          ![
+            'application/x-zip',
+            'application/zip',
+            'application/x-zip-compressed',
+          ].includes(file.type)
+        ) {
           ElMessage.warning('仅支持 *.zip')
           return Promise.reject(false)
         }
