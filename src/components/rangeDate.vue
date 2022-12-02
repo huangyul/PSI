@@ -49,7 +49,6 @@
         immediate: true,
         handler(value) {
           if (value) {
-            console.log(value)
             this.start = value
           } else {
             this.start = ''

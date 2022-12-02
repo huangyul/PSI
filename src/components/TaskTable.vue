@@ -64,7 +64,6 @@
       }
     },
     mounted() {
-      console.log(this.textColorMap.get(-1).text)
     },
     methods: {
       openDetail(row) {

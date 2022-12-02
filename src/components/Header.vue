@@ -203,7 +203,6 @@
         this.$axios
           .get(url)
           .then((res) => {
-            //console.log(res);
             if (res.data.data == null) {
               this.dialogVisible = false
             } else {
@@ -243,6 +242,10 @@
                     return item.Count >= 0
                   }
                 )
+                // 警告数量为0的不显示
+                this.warningList = this.warningList.filter((i) => {
+                  return i.Count > 0
+                })
                 if (this.warningList.length > 0) {
                   var zeroList = this.warningList.filter((item, index, arr) => {
                     return item.Count == 0
@@ -258,10 +261,7 @@
                   //this.dialogVisible = false;
                   this.isShowTable = false
                 }
-                // 警告数量为0的不显示
-                this.warningList = this.warningList.filter((i) => {
-                  return i.Count > 0
-                })
+
                 if (
                   this.IsCommitInventory === false ||
                   this.isShowTable === true

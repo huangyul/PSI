@@ -240,7 +240,8 @@
         }
         .error-reason {
           color: #fd7575;
-          width: auto;
+          flex: 1;
+          text-align: left;
         }
       }
       .tips {

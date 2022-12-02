@@ -38,7 +38,7 @@
             </div>
           </div>
 
-          <div class="search-item">
+          <div class="search-item" style="margin-top: 10px">
             <button class="btn-blue" @click="init">查询</button>
             <button class="btn-grey" @click="reset">重置</button>
           </div>
@@ -99,7 +99,14 @@
           status: -2,
           importType: 1,
           fileName: '',
-          startTime: new Date().toLocaleString(),
+          startTime: new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate(),
+            0,
+            0,
+            0
+          ).toLocaleString(),
           endTime: new Date(
             new Date(
               new Date().getFullYear(),
@@ -125,6 +132,7 @@
         if (val) {
           this.activeName = '1'
           this.searchForm.importType = 1
+          this.reset()
           this.init()
         }
       },
@@ -142,7 +150,14 @@
             new Date().getDate() + 1
           ).getTime() - 1000
         ).toLocaleString()
-        this.searchForm.startTime = new Date().toLocaleString()
+        this.searchForm.startTime = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate(),
+          0,
+          0,
+          0
+        ).toLocaleString()
         this.searchForm.fileName = ''
         this.searchForm.status = -2
       },
@@ -165,6 +180,7 @@
     .search {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       .search-item {
         display: flex;
         align-items: center;
