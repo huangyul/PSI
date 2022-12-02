@@ -174,8 +174,8 @@
           return Promise.reject(false)
         }
         // 限制文件大小
-        if (file.size > 100 * 1024 * 1024) {
-          this.errorText = `${file.name}文件大小不能超过100M哦，请重新导入`
+        if (file.size >= 25 * 1024 * 1024) {
+          this.errorText = `${file.name}文件大小不能超过25M哦，请重新导入`
           this.isErrorTipShow = true
           return Promise.reject(false)
         }
