@@ -5,6 +5,7 @@
       title="任务列表"
       :width="1200"
       top="5vh"
+      :destroy-on-close="true"
       @close="$emit('update:isShow', false)"
     >
       <div class="box">

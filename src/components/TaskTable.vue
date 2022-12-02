@@ -14,7 +14,7 @@
       <el-table-column label="导入文件名" prop="FileName"></el-table-column>
       <el-table-column label="状态" prop="Status" width="100">
         <template #default="{ row }">
-          <span :style="{ color: textColorMap.get(row?.Status).color }">{{
+          <span :style="{ color: textColorMap.get(row?.Status)?.color }">{{
             textColorMap.get(row?.Status)?.text
           }}</span>
         </template>

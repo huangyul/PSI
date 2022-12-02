@@ -5,6 +5,7 @@
       title="任务详情"
       :width="800"
       top="5vh"
+      :destroy-on-close="true"
       @close="$emit('update:isShow', false)"
     >
       <div class="desc" v-if="data">
@@ -49,7 +50,7 @@
           </div>
           <div
             class="summary-item"
-            v-if="data.Status == 2 && data.FailNum == 0"
+            v-if="data?.Status == 2 && data?.FailNum == 0"
           >
             <span>失败原因：</span>
             <span class="error-reason">{{ data.Messages }}</span>
