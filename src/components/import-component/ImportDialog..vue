@@ -51,7 +51,7 @@
             <div class="choose-btn">选择</div>
           </el-upload>
         </div>
-        <div class="file-tips">支持 *.zip，最大不超过100M</div>
+        <div class="file-tips">支持 *.zip，最大不超过25M</div>
       </div>
       <div class="tips" v-show="type == 'product'">
         <span style="font-weight: bold">提示：</span>支持 png、jpg

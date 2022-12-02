@@ -1,6 +1,6 @@
 <template>
   <div class="task-table">
-    <el-table :data="data" :height="500">
+    <el-table :data="data" :height="400">
       <el-table-column label="ID" prop="ID" width="180">
         <template #default="{ row }">
           <span class="can-click" @click="openDetail(row)">{{ row?.ID }}</span>
