@@ -209,8 +209,8 @@
             uploadTypeMap.get(this.type),
             formData
           )
-          await dealUploadFile()
           this.loadingText = '上传成功，文件正在处理...'
+          await dealUploadFile()
           setTimeout(() => {
             this.isLoadingShow = false
             this.$emit('upload-success', res.Msg)

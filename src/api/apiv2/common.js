@@ -101,7 +101,7 @@ export function dealUploadFile() {
     params: {
       userCode: localStorage.getItem('UserCode'),
       userName: localStorage.getItem('ms_username'),
-      orgId: localStorage.getItem('orgId'),
+      orgId: localStorage.getItem('OrganizationId'),
     },
   })
 }
