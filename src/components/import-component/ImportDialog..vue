@@ -210,11 +210,11 @@
             formData
           )
           this.loadingText = '上传成功，文件正在处理...'
-          await dealUploadFile()
           setTimeout(() => {
             this.isLoadingShow = false
             this.$emit('upload-success', res.Msg)
           }, 3000)
+          await dealUploadFile()
         } catch (err) {
           this.isLoadingShow = false
         }

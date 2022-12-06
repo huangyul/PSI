@@ -177,7 +177,7 @@ export default {
         '&orderType=' +
         this.searchForm.orderType +
         '&productInfo=' +
-        this.searchForm.productInfo +
+        encodeURIComponent(this.searchForm.productInfo) +
         '&userCode=' +
         localStorage.getItem('UserCode')
       this.$axios

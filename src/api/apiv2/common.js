@@ -103,5 +103,6 @@ export function dealUploadFile() {
       userName: localStorage.getItem('ms_username'),
       orgId: localStorage.getItem('OrganizationId'),
     },
+    data: localStorage.getItem('shopCode').split(','),
   })
 }
