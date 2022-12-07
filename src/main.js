@@ -6,7 +6,7 @@ import installElementPlus from './plugins/element'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import './assets/css/icon.css'
-import mitt from "mitt";
+import mitt from 'mitt'
 
 import axios from 'axios'
 import print from 'vue3-print-nb'
@@ -49,6 +49,23 @@ axios.interceptors.request.use(
         config.headers.Authorization = localStorage.getItem('Token')
       }
     }
+
+    // 统一使用encodeURIComponent处理url参数上的特殊符号
+    const rawParmasList = config.url.split("?")[1]
+    if(rawParmasList) {
+      let rawParmas = config.url.split('?')[1]?.split('&')
+      rawParmas.forEach((i, index, arr) => {
+        const [key, value] = i.split('=')
+  
+        arr[index] = `${key}=${encodeURIComponent(value)}`
+        if (value === '+') {
+          console.log(i)
+        }
+      })
+      rawParmas = rawParmas.join('&')
+      config.url = config.url.split('?')[0] + '?' + rawParmas
+    }
+
     return config
   },
   (error) => {
@@ -78,6 +95,7 @@ axios.interceptors.response.use(
             })
         }
       }, 3000)
+      console.log(error)
       return Promise.reject('VPN或网络异常，请尝试重连VPN或检查网络设置哦')
 
       return Promise.reject('网络不稳定，导致请求超时，请重新登录！')
