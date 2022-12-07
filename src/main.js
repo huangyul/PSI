@@ -57,10 +57,7 @@ axios.interceptors.request.use(
       rawParmas.forEach((i, index, arr) => {
         const [key, value] = i.split('=')
 
-        arr[index] = `${key}=${decodeURIComponent(encodeURIComponent(value))}` // 因为之前有某几个模块已经处理了
-        if (value === '+') {
-          console.log(i)
-        }
+        arr[index] = `${key}=${encodeURIComponent(decodeURIComponent(value))}` // 因为之前有某几个模块已经使用decodeURIComponent处理了
       })
       rawParmas = rawParmas.join('&')
       config.url = config.url.split('?')[0] + '?' + rawParmas

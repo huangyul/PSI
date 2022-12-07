@@ -66,10 +66,7 @@ service.interceptors.request.use(
       rawParmas.forEach((i, index, arr) => {
         const [key, value] = i.split('=')
 
-        arr[index] = `${key}=${decodeURIComponent(encodeURIComponent(value))}`
-        if (value === '+') {
-          console.log(i)
-        }
+        arr[index] = `${key}=${encodeURIComponent(decodeURIComponent(value))}`
       })
       rawParmas = rawParmas.join('&')
       config.url = config.url.split('?')[0] + '?' + rawParmas

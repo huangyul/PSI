@@ -53,7 +53,16 @@
             v-if="data?.Status == 2 && data?.FailNum == 0"
           >
             <span>失败原因：</span>
-            <span class="error-reason">{{ data.Messages }}</span>
+            <div class="error-reason" ref="error">
+              {{ data.Messages }}
+              <div
+                class="error-btn"
+                v-show="isErrorBtnShow"
+                @click="isErrorDetailShow = true"
+              >
+                点击查看详情
+              </div>
+            </div>
           </div>
           <p class="tips">
             <Warning style="width: 16px; margin-right: 6px" />
@@ -72,6 +81,24 @@
       <template #footer>
         <div class="footer">
           <button @click="$emit('update:isShow', false)">关闭</button>
+        </div>
+      </template>
+    </el-dialog>
+
+    <!-- 错误详情弹窗 -->
+    <el-dialog
+      v-model="isErrorDetailShow"
+      title="失败详情"
+      :width="800"
+      top="5vh"
+      :destroy-on-close="true"
+    >
+      <div style="max-height: 700px; overflow-y: auto; line-height: 24px;">
+        {{ data.Messages }}
+      </div>
+      <template #footer>
+        <div class="footer">
+          <button @click="isErrorDetailShow = false">关闭</button>
         </div>
       </template>
     </el-dialog>
@@ -105,6 +132,8 @@
           [1, { color: '#43c095', text: '导入成功' }],
           [2, { color: '#fd7575', text: '导入失败' }],
         ]),
+        isErrorBtnShow: false,
+        isErrorDetailShow: false,
       }
     },
     watch: {
@@ -124,6 +153,17 @@
       async init() {
         const res = await getTaskDetail({ transactionId: this.transactionId })
         this.data = res
+        // 如果行高超过5行，则显示按钮
+        if (this.isShow) {
+          this.$nextTick(() => {
+            if(this.$refs.error.offsetHeight > 140) {
+              this.isErrorBtnShow = true
+              this.$refs.error.style.height = '140px'
+            } else {
+              this.isErrorBtnShow = false
+            }
+          })
+        }
       },
       async getErrorFileDownUrl(path) {
         const res = await downloadFile(path, 0)
@@ -243,6 +283,28 @@
           color: #fd7575;
           flex: 1;
           text-align: left;
+          line-height: 28px;
+          overflow: hidden;
+          position: relative;
+          .error-btn {
+            margin-left: 10px;
+            background: #ffffff;
+            padding: 3px 6px;
+            font-size: 14px;
+            line-height: 14px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: #4391ee;
+            border: 1px solid #579ff6;
+            border-radius: 4px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 2px;
+            right: 0;
+            &:hover {
+              opacity: 0.9;
+            }
+          }
         }
       }
       .tips {
