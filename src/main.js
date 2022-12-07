@@ -51,13 +51,13 @@ axios.interceptors.request.use(
     }
 
     // 统一使用encodeURIComponent处理url参数上的特殊符号
-    const rawParmasList = config.url.split("?")[1]
-    if(rawParmasList) {
+    const rawParmasList = config.url.split('?')[1]
+    if (rawParmasList) {
       let rawParmas = config.url.split('?')[1]?.split('&')
       rawParmas.forEach((i, index, arr) => {
         const [key, value] = i.split('=')
-  
-        arr[index] = `${key}=${encodeURIComponent(value)}`
+
+        arr[index] = `${key}=${decodeURIComponent(encodeURIComponent(value))}` // 因为之前有某几个模块已经处理了
         if (value === '+') {
           console.log(i)
         }

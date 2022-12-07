@@ -58,7 +58,7 @@ service.interceptors.request.use(
         config.headers.Authorization = localStorage.getItem('Token')
       }
     }
-    
+
     // 统一使用encodeURIComponent处理url参数上的特殊符号
     const rawParmasList = config.url.split('?')[1]
     if (rawParmasList) {
@@ -66,7 +66,7 @@ service.interceptors.request.use(
       rawParmas.forEach((i, index, arr) => {
         const [key, value] = i.split('=')
 
-        arr[index] = `${key}=${encodeURIComponent(value)}`
+        arr[index] = `${key}=${decodeURIComponent(encodeURIComponent(value))}`
         if (value === '+') {
           console.log(i)
         }
