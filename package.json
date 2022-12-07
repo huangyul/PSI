@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vite preview",
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "cz": "git add . && czg"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.4",

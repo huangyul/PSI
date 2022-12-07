@@ -89,7 +89,7 @@ export default {
         '&planCode=' +
         planCode +
         '&productInfo=' +
-        productInfo +
+        encodeURIComponent(productInfo) +
         '&startTime=' +
         startTime +
         '&endTime=' +
@@ -767,7 +767,7 @@ export default {
         '&supllerInfo=' +
         this.productSearchForm.supplierInfo +
         '&productInfo=' +
-        this.searchForm.Product +
+        encodeURIComponent(this.searchForm.Product) +
         '&categoryId=' +
         this.productSearchForm.matTypeId +
         '&startTime=' +

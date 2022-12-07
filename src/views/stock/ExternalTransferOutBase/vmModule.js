@@ -278,7 +278,7 @@ export default {
         '&matTypeID=' +
         this.searchSubFrom.searchCondition.MatTypeID +
         '&productInfo=' +
-        this.searchSubFrom.searchCondition.Product +
+        encodeURIComponent(this.searchSubFrom.searchCondition.Product) +
         '&page=' +
         this.searchSubFrom.page +
         '&pageSize=' +

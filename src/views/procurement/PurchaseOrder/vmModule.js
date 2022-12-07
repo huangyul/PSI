@@ -148,6 +148,8 @@ export default {
       page,
       pageSize
     ) {
+      console.log(this.searchForm.productInfo)
+      const pInfo = encodeURIComponent(this.searchForm.productInfo)
       var url =
         procurement.PurchaseOrder.query +
         '?shopInfo=' +

@@ -135,7 +135,7 @@ export default {
       var url =
         stock.StockManagement.GetCheckoutDatas +
         '?productInfo=' +
-        this.searchForm.searchCondition.Product +
+        encodeURIComponent(this.searchForm.searchCondition.Product) +
         '&whCode=' +
         this.searchForm.searchCondition.warehouseCode +
         '&positionCode=' +
@@ -202,7 +202,7 @@ export default {
         '&matTypeID=' +
         this.searchSubFrom.searchCondition.MatTypeID +
         '&productInfo=' +
-        this.searchSubFrom.searchCondition.Product +
+        encodeURIComponent(this.searchSubFrom.searchCondition.Product) +
         '&page=' +
         this.searchSubFrom.page +
         '&pageSize=' +
