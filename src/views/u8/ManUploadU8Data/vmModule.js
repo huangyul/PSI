@@ -114,7 +114,11 @@ export default {
     },
     // 将类型转为中文
     typeText(row) {
-      return this.typeList.find((i) => i.value == row.TypeValue).label
+      if (row && row.TypeValue) {
+        return this.typeList.find((i) => i.value == row.TypeValue).label
+      } else {
+        return ''
+      }
     },
     // 手工同步
     async onU8Sync() {

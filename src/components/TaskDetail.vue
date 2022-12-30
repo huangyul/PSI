@@ -50,7 +50,7 @@
           </div>
           <div
             class="summary-item"
-            v-if="data?.Status == 2 && data?.FailNum == 0"
+            v-show="data?.Status == 2 && data?.FailNum == 0"
           >
             <span>失败原因：</span>
             <div class="error-reason" ref="error">
@@ -93,7 +93,7 @@
       top="5vh"
       :destroy-on-close="true"
     >
-      <div style="max-height: 700px; overflow-y: auto; line-height: 24px;">
+      <div style="max-height: 700px; overflow-y: auto; line-height: 24px">
         {{ data.Messages }}
       </div>
       <template #footer>
@@ -147,23 +147,24 @@
       },
     },
     mounted() {
-      this.init()
+      // this.init()
     },
     methods: {
       async init() {
         const res = await getTaskDetail({ transactionId: this.transactionId })
         this.data = res
         // 如果行高超过5行，则显示按钮
-        if (this.isShow) {
-          this.$nextTick(() => {
-            if(this.$refs.error.offsetHeight > 140) {
-              this.isErrorBtnShow = true
-              this.$refs.error.style.height = '140px'
-            } else {
-              this.isErrorBtnShow = false
-            }
-          })
-        }
+        // debugger
+        // if (this.isShow) {
+        this.$nextTick(() => {
+          if (this.$refs.error.offsetHeight > 140) {
+            this.isErrorBtnShow = true
+            this.$refs.error.style.height = '140px'
+          } else {
+            this.isErrorBtnShow = false
+          }
+        })
+        // }
       },
       async getErrorFileDownUrl(path) {
         const res = await downloadFile(path, 0)
