@@ -32,3 +32,31 @@ export const dataURLToFile = (dataurl, filename) => {
     type,
   })
 }
+
+/**
+ * 处理请求的params
+ * 1. 所有参数序列化
+ * 2. 删掉以前的shopCode参数
+ * @param {Object} config axios请求前的config
+ */
+export const handleParams = (config) => {
+  let _config = Object.assign({}, config)
+  // 统一使用encodeURIComponent处理url参数上的特殊符号
+  const rawParmasList = _config.url.split('?')[1]
+  if (rawParmasList) {
+    let rawParmas = _config.url.split('?')[1]?.split('&')
+    let resParams = []
+    for (let i = 0; i < rawParmas.length; i++) {
+      const [key, value] = rawParmas[i].split('=')
+      // 如果url上有shopcode参数并且取值完全等于localstorage中的值，则删掉不传
+      if (key == 'shopCode' && value === localStorage.getItem('shopCode')) {
+        continue
+      }
+      resParams.push(`${key}=${encodeURIComponent(decodeURIComponent(value))}`)
+    }
+
+    resParams = resParams.join('&')
+    _config.url = _config.url.split('?')[0] + '?' + resParams
+  }
+  return _config
+}

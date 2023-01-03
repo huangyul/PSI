@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ElMessage, ElLoading } from 'element-plus'
+import { handleParams } from './helper'
 
 // 获取baseUrl
 const getBaseUrl = () => {
@@ -59,18 +60,11 @@ service.interceptors.request.use(
       }
     }
 
-    // 统一使用encodeURIComponent处理url参数上的特殊符号
-    const rawParmasList = config.url.split('?')[1]
-    if (rawParmasList) {
-      let rawParmas = config.url.split('?')[1]?.split('&')
-      rawParmas.forEach((i, index, arr) => {
-        const [key, value] = i.split('=')
-
-        arr[index] = `${key}=${encodeURIComponent(decodeURIComponent(value))}`
-      })
-      rawParmas = rawParmas.join('&')
-      config.url = config.url.split('?')[0] + '?' + rawParmas
-    }
+    /**
+     * 1. 处理params参数，将所有参数序列化
+     * 2. 去掉params中的shopCode参数
+     */
+     config = handleParams(config)
 
     return config
   },
