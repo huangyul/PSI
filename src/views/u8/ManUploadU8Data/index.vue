@@ -2,7 +2,7 @@
   <div style="height: 100%;">
     <div class="all">
       <div class="topBtnBox">
-        <button v-show="permissionsList.Add" class="blue" @click="onU8Sync">
+        <button v-show="permissionsList.manSynchronize" class="blue" @click="onU8Sync">
           <i class="U8Sync"></i>批量手工同步
         </button>
       </div>

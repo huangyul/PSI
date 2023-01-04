@@ -146,7 +146,7 @@
             //console.log(res);
             var token = 'Bearer ' + res.data.Token
             localStorage.setItem('Token', token)
-            localStorage.setItem('loginTime', new Date().toLocaleDateString().replaceAll('/', '-'))
+            localStorage.setItem('loginTime', new Date().toLocaleDateString().replace(/\//g, '-'))
             localStorage.setItem('Expires', res.data.Expires)
             let Expires = new Date().getTime()
             Expires = Expires + (outTime - 3600 + 30) * 1000
@@ -258,7 +258,7 @@
             //console.log(res);
             var token = 'Bearer ' + res.data.Token
             localStorage.setItem('Token', token)
-            localStorage.setItem('loginTime', new Date().toLocaleDateString().replaceAll('/', '-'))
+            localStorage.setItem('loginTime', new Date().toLocaleDateString().replace(/\//g, '-'))
             //localStorage.setItem("ms_usercode", param.username);
             //localStorage.setItem("Expires", res.data.Expires);
             localStorage.setItem('UserCode', res.data.UserCode)

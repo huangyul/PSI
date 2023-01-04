@@ -255,8 +255,9 @@ export default {
     eventSearch() {
       if (this.searchForm.date) {
         var month = this.searchForm.date.getMonth()
-        var startTime = new Date(new Date().getFullYear(), month - 1, 26)
-        var endTime = new Date(new Date().getFullYear(), month, 25)
+        const year = this.searchForm.date.getFullYear()
+        var startTime = new Date(year, month - 1, 26)
+        var endTime = new Date(year, month, 25)
         this.searchForm.startTime = func.formatTimeToStr(
           startTime,
           'yyyy-MM-dd'
@@ -317,8 +318,9 @@ export default {
     eventExport() {
       if (this.searchForm.date) {
         var month = this.searchForm.date.getMonth()
-        var startTime = new Date(new Date().getFullYear(), month - 1, 26)
-        var endTime = new Date(new Date().getFullYear(), month, 25)
+        const year = this.searchForm.date.getFullYear()
+        var startTime = new Date(year, month - 1, 26)
+        var endTime = new Date(year, month, 25)
         this.searchForm.startTime = func.formatTimeToStr(
           startTime,
           'yyyy-MM-dd'

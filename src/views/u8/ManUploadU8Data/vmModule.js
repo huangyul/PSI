@@ -136,7 +136,7 @@ export default {
     this.username = localStorage.getItem('ms_username')
     this.isShowPosition = localStorage.getItem('isShowPosition')
     for (var item of JSON.parse(localStorage.getItem('permissions'))) {
-      if (item.ModuleUrl == 'CategoryManagement') {
+      if (item.ModuleUrl == 'ManUploadU8Data') {
         this.permissionsList = item.Rights
       }
     }
