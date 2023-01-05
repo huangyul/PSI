@@ -80,6 +80,7 @@
   import RangeDate from './rangeDate.vue'
   import TaskTable from './TaskTable.vue'
   import { getTaskList } from '../api/apiv2/task'
+  import dayjs from 'dayjs'
   export default {
     props: {
       isShow: {
@@ -100,21 +101,25 @@
           status: -2,
           importType: 1,
           fileName: '',
-          startTime: new Date(
-            new Date().getFullYear(),
-            new Date().getMonth(),
-            new Date().getDate(),
-            0,
-            0,
-            0
-          ).toLocaleString(),
-          endTime: new Date(
+          startTime: dayjs(
             new Date(
               new Date().getFullYear(),
               new Date().getMonth(),
-              new Date().getDate() + 1
-            ).getTime() - 1000
-          ).toLocaleString(),
+              new Date().getDate(),
+              0,
+              0,
+              0
+            )
+          ).format('YYYY/MM/DD HH:mm:ss'),
+          endTime: dayjs(
+            new Date(
+              new Date(
+                new Date().getFullYear(),
+                new Date().getMonth(),
+                new Date().getDate() + 1
+              ).getTime() - 1000
+            )
+          ).format('YYYY/MM/DD HH:mm:ss'),
         },
         statusList: [
           { label: '全部', value: -2 },
@@ -144,21 +149,25 @@
         this.init()
       },
       reset() {
-        this.searchForm.endTime = new Date(
+        this.searchForm.endTime = dayjs(
+          new Date(
+            new Date(
+              new Date().getFullYear(),
+              new Date().getMonth(),
+              new Date().getDate() + 1
+            ).getTime() - 1000
+          )
+        ).format('YYYY/MM/DD HH:mm:ss')
+        this.searchForm.startTime = dayjs(
           new Date(
             new Date().getFullYear(),
             new Date().getMonth(),
-            new Date().getDate() + 1
-          ).getTime() - 1000
-        ).toLocaleString()
-        this.searchForm.startTime = new Date(
-          new Date().getFullYear(),
-          new Date().getMonth(),
-          new Date().getDate(),
-          0,
-          0,
-          0
-        ).toLocaleString()
+            new Date().getDate(),
+            0,
+            0,
+            0
+          )
+        ).format('YYYY/MM/DD HH:mm:ss')
         this.searchForm.fileName = ''
         this.searchForm.status = -2
       },

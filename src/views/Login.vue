@@ -57,6 +57,7 @@
   import axios from 'axios'
   import identify from './supplier/SupplierLogin/Identify.vue'
   import { processExpression } from '@vue/compiler-core'
+  import dayjs from 'dayjs'
 
   export default {
     setup() {
@@ -146,6 +147,7 @@
             //console.log(res);
             var token = 'Bearer ' + res.data.Token
             localStorage.setItem('Token', token)
+            // localStorage.setItem('loginTime', dayjs(new Date()).format('YYYY/MM/DD HH:mm:ss'))
             localStorage.setItem('loginTime', new Date().toLocaleDateString().replace(/\//g, '-'))
             localStorage.setItem('Expires', res.data.Expires)
             let Expires = new Date().getTime()
@@ -258,7 +260,9 @@
             //console.log(res);
             var token = 'Bearer ' + res.data.Token
             localStorage.setItem('Token', token)
+            // localStorage.setItem('loginTime', dayjs(new Date()).format('YYYY/MM/DD HH:mm:ss'))
             localStorage.setItem('loginTime', new Date().toLocaleDateString().replace(/\//g, '-'))
+
             //localStorage.setItem("ms_usercode", param.username);
             //localStorage.setItem("Expires", res.data.Expires);
             localStorage.setItem('UserCode', res.data.UserCode)
