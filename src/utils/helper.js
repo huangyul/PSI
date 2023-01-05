@@ -48,11 +48,20 @@ export const handleParams = (config) => {
     let resParams = []
     for (let i = 0; i < rawParmas.length; i++) {
       const [key, value] = rawParmas[i].split('=')
-      // 如果url上有shopcode参数并且取值完全等于localstorage中的值，则删掉不传
-      if (key == 'shopCode' && value === localStorage.getItem('shopCode')) {
-        continue
+      // 如果url上有shopcode参数并且取值完全等于localstorage中的值，并且shopcode的个数大于50，则删掉不传
+      if (key == 'shopCode') {
+        if (
+          value === localStorage.getItem('shopCode') &&
+          value.split(',').length > 50
+        ) {
+          continue
+        }
+        resParams.push(`${key}=${decodeURIComponent(value)}`)
+      } else {
+        resParams.push(
+          `${key}=${encodeURIComponent(decodeURIComponent(value))}`
+        )
       }
-      resParams.push(`${key}=${encodeURIComponent(decodeURIComponent(value))}`)
     }
 
     resParams = resParams.join('&')
