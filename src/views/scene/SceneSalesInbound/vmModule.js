@@ -207,6 +207,7 @@ export default {
         }
         arr.push(obj)
       }
+      const loading = func.backgroundLoading('Loading')
       //console.log(arr);return;
       var url =
         scene.SceneSalesInbound.save +
@@ -220,6 +221,9 @@ export default {
         })
         .catch((err) => {
           ElMessage.warning({ message: err, type: 'warning' })
+        })
+        .finally(() => {
+          loading.close()
         })
       // for (var itemData of this.tableData) {
       //     if (itemData.BackNum > 0) {
