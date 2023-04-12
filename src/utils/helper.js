@@ -69,3 +69,27 @@ export const handleParams = (config) => {
   }
   return _config
 }
+
+/**
+ * 找出父id下所有层级子类，返回由所有层级子类组合的数组
+ * @param {*} id 父id
+ * @param {*} arr 数组
+ */
+export function findChildrenIds(id, arr) {
+  let result = []
+  for (let i = 0; i < arr.length; i++) {
+    let node = arr[i]
+    if (node.Id === id) {
+      result.push(node.Id)
+      if (node.children) {
+        for (let j = 0; j < node.children.length; j++) {
+          let child = node.children[j]
+          result = result.concat(findChildrenIds(child.Id, arr))
+        }
+      }
+    } else if (node.children) {
+      result = result.concat(findChildrenIds(id, node.children))
+    }
+  }
+  return result
+}

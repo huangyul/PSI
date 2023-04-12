@@ -441,6 +441,7 @@
                       children: 'children',
                       checkStrictly: true,
                       expandTrigger: 'hover',
+                      emitPath: false
                     }"
                     :options="SubCategoryTree"
                     v-model="searchSubFrom.searchCondition.MatTypeID"

@@ -3,6 +3,7 @@ import basis from '../../../api/basisApi.js'
 import stock from '../../../api/stockApi.js'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import RangeDate from '../../../components/rangeDate.vue'
+import { findChildrenIds } from '../../../utils/helper.js'
 export default {
   name: 'StoreTransfer',
   components: { RangeDate },
@@ -164,8 +165,9 @@ export default {
         this.searchForm.page +
         '&pageSize=' +
         this.searchForm.pageSize
+        const ids = findChildrenIds(this.searchForm.searchCondition.matTypeID, this.CategoryTree)
       this.$axios
-        .post(url, [])
+        .post(url, ids)
         .then((res) => {
           this.tableData = res.data.Results
           this.searchForm.total = res.data.TotalCount

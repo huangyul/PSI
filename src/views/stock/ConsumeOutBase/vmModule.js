@@ -3,6 +3,7 @@ import basis from '../../../api/basisApi.js'
 import stock from '../../../api/stockApi.js'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import RangeDate from '../../../components/rangeDate.vue'
+import { findChildrenIds } from '../../../utils/helper.js'
 export default {
   name: 'ConsumeOutBase',
   components: { RangeDate },
@@ -158,8 +159,8 @@ export default {
         this.searchForm.startTime +
         '&endTime=' +
         this.searchForm.endTime +
-        '&matTypeId=' +
-        this.searchForm.searchCondition.matTypeID +
+        // '&matTypeId=' +
+        // this.searchForm.searchCondition.matTypeID +
         '&inShopCode=' +
         this.searchForm.searchCondition.companyCode +
         '&checkoutType=' +
@@ -172,8 +173,9 @@ export default {
         this.searchForm.page +
         '&pageSize=' +
         this.searchForm.pageSize
+      const ids = findChildrenIds(this.searchForm.searchCondition.matTypeID, this.MainCategoryTree)
       this.$axios
-        .post(url, [])
+        .post(url, ids)
         .then((res) => {
           this.tableData = res.data.Results
           this.searchForm.total = res.data.TotalCount
@@ -212,8 +214,8 @@ export default {
       this.$axios
         .post(url, list)
         .then((res) => {
-          this.UnSelectedItemlist = res.data.Results
-          this.searchSubFrom.total = res.data.TotalCount
+            this.UnSelectedItemlist = res.data.Results
+            this.searchSubFrom.total = res.data.TotalCount
         })
         .catch((err) => {
           this.$message({ message: err, type: 'warning' })
