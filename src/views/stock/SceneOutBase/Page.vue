@@ -311,7 +311,7 @@
             <el-table-column prop="UnitName" label="单位" width="50">
             </el-table-column>
             <el-table-column
-              prop="StockNum"
+              prop="AllStockNum"
               label="在库数量"
               align="right"
               width="80"
@@ -322,7 +322,7 @@
                 <el-input-number
                   v-model="scope.row.CheckoutSum"
                   :min="0"
-                  :max="scope.row.StockNum"
+                  :max="scope.row.AllStockNum"
                   controls-position="right"
                   size="small"
                 />
@@ -469,7 +469,7 @@
             <el-table-column prop="UnitName" label="单位" width="50">
             </el-table-column>
             <el-table-column
-              prop="StockNum"
+              prop="AllStockNum"
               label="在库数量"
               align="right"
               width="100"
