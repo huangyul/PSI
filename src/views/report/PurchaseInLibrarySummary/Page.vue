@@ -97,6 +97,7 @@
             <el-select v-model="searchForm.type">
               <el-option label="采购入库" :value="'0'"></el-option>
               <el-option label="退货" :value="'8'"></el-option>
+              <el-option label="金额调整" :value="'9'"></el-option>
             </el-select>
           </div>
         </div>
@@ -147,6 +148,11 @@
           label="退货单号"
           min-width="180"
         >
+        </el-table-column>
+        <el-table-column
+          prop="AmountAdjustmentID"
+          label="金额调整单号"
+          min-width="180">
         </el-table-column>
         <el-table-column prop="SupplierName" label="供应商名称" min-width="190">
         </el-table-column>
