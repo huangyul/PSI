@@ -131,11 +131,7 @@
       >
         <el-table-column prop="ShopName" label="门店名称" width="230">
         </el-table-column>
-        <el-table-column prop="CheckinType" label="类型" width="80">
-          <template #default="scope">
-            <span v-if="scope.row.CheckinType == '0'">采购入库</span>
-            <span v-if="scope.row.CheckinType == '8'">退货</span>
-          </template>
+        <el-table-column prop="CheckinTypeName" label="类型" width="80">
         </el-table-column>
         <el-table-column
           prop="PurchaseOrderCode"
@@ -150,7 +146,7 @@
         >
         </el-table-column>
         <el-table-column
-          prop="AmountAdjustmentID"
+          prop="AmountAdjustmentCode"
           label="金额调整单号"
           min-width="180">
         </el-table-column>
