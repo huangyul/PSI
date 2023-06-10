@@ -184,7 +184,7 @@
           var t_url = './table.json'
           axios.get(t_url).then((res) => {
             localStorage.setItem('apiUrl', res.data.apiUrl)
-            var url = res.data.apiUrl + '/api/UserWarn/NotRemind'
+            var url = '/api/UserWarn/NotRemind'
             this.$axios
               .post(url)
               .then((res) => {})
@@ -197,7 +197,6 @@
       //获取预警信息
       funcLoadWaning(rooturl) {
         var url =
-          rooturl +
           '/api/UserWarn/WarningPreview?shopCode=' +
           localStorage.getItem('shopCode')
         this.$axios
