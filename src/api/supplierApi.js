@@ -15,9 +15,9 @@ class supplier{
 		//发货保存
 		add:'/api/PurchaseDelivery/CreatePurchaseDelivery',
 		//导出
-		export:port + '/api/PurchaseDelivery/GetPurchaseOrderListInfoToExcel',
+		export: '/api/PurchaseDelivery/GetPurchaseOrderListInfoToExcel',
 		//获取打印数据打印
-		getPrintData:port + '/api/PurchaseDelivery/GetPurchase_OrderItemToPrintList',
+		getPrintData: '/api/PurchaseDelivery/GetPurchase_OrderItemToPrintList',
 	}
 	
 	//发货明细

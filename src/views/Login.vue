@@ -133,7 +133,6 @@
         localStorage.setItem('userType', '3') //测试环境参数，用户类型 0-总部用户 1-门店用户  3供应商
         var port = localStorage.getItem('apiUrl')
         var supplierUrl =
-          port +
           '/api/UserLoginInfo/SupplierLogin?loginCode=' +
           param.username +
           '&password=' +
@@ -297,7 +296,7 @@
               localStorage.setItem('isTakeTime', '0') //不在盘点时间内
             }
 
-            var permissionsUrl = port + '/api/UserLoginInfo/GetModulesByUser'
+            var permissionsUrl = '/api/UserLoginInfo/GetModulesByUser'
             axios
               .get(permissionsUrl)
               .then((res) => {
@@ -312,7 +311,7 @@
                 localStorage.setItem('permissions', JSON.stringify(arr)) ///获取可以进去哪些页面信息
 
 
-                var UserInfoUrl = port + '/api/UserLoginInfo/GetUserInfo'
+                var UserInfoUrl = '/api/UserLoginInfo/GetUserInfo'
                 axios
                   .get(UserInfoUrl)
                   .then((res) => {
@@ -321,7 +320,7 @@
                     localStorage.setItem('userCode', res.data.AccountCode) //测试环境参数，用户登录帐号
                     localStorage.setItem('userType', res.data.OrganizationType) //测试环境参数，用户类型 0-总部用户 1-门店用户
                     localStorage.setItem('OrganizationId', res.data.TopOrgId) //组织ID，辨别客户
-                    var OrgsUrl = port + '/api/UserLoginInfo/GetOrgsFromUser'
+                    var OrgsUrl = '/api/UserLoginInfo/GetOrgsFromUser'
                     axios
                       .get(OrgsUrl)
                       .then((res) => {

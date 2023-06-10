@@ -73,9 +73,9 @@ class stock{
 			//查询
 			query: '/api/PSIStoreCheckin/GetStore_CheckinListInfo',
 			//获取库存调整的商品信息
-			queryProduct:port+'/api/PSIStoreCheckin/GetCheckinProductInfos',
+			queryProduct:'/api/PSIStoreCheckin/GetCheckinProductInfos',
 			//保存库存调整信息
-			save:port+'/api/PSIStoreCheckin/CreateCheckinAdjust',
+			save:'/api/PSIStoreCheckin/CreateCheckinAdjust',
 		}
 		
 		//景品回库
@@ -83,9 +83,9 @@ class stock{
 			//查询
 			query: '/api/ProductCheckin/GetCheckinList',
 			//获取景品列表
-			queryProduct:port+'/api/ProductCheckin/GetCheckinSource',
+			queryProduct:'/api/ProductCheckin/GetCheckinSource',
 			//景品回库保存
-			save:port+'/api/ProductCheckin/SaveProductCheck',
+			save:'/api/ProductCheckin/SaveProductCheck',
 		}
 }
 

@@ -33,11 +33,11 @@ class scene{
 	//景品率查询
 	static SceneRateQueryList = {
 		//景品率查询-按机位排序
-        SearchByNoseNum:port + '/api/ProductSaleOutIn/GetProductSaleInOutRate',
+        SearchByNoseNum: '/api/ProductSaleOutIn/GetProductSaleInOutRate',
         //景品率查询-按机器排序
-        SearchByAssetNum:port + '/api/ProductSaleOutIn/GetProductSaleInOutRate',
+        SearchByAssetNum: '/api/ProductSaleOutIn/GetProductSaleInOutRate',
         //景品率查询-按机器分组排序
-        SearchByGroupId:port + '/api/ProductSaleOutIn/GetProductSaleInOutRate',
+        SearchByGroupId: '/api/ProductSaleOutIn/GetProductSaleInOutRate',
 				//导出
 				Export:'/api/ProductSaleOutIn/GetSaleInOutRateToExcel',
 	}

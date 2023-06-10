@@ -33,9 +33,9 @@ class basis{
 	static ExportDownload = '/api/File/DownloadFile';
 	
 	//获取模板，1发货单，2挑拨单，3条形码
-	static getTemplate = port + '/api/PSIBaseTemplate/GetPrintTemplateById';
+	static getTemplate = '/api/PSIBaseTemplate/GetPrintTemplateById';
 	//修改模板，1发货单，2挑拨单，3条形码
-	static updateTemplate = port + '/api/PSIBaseTemplate/CreatePSI_Base_Template';
+	static updateTemplate = '/api/PSIBaseTemplate/CreatePSI_Base_Template';
 	
 	//商品单位
 	static CommodityUnit = {
@@ -101,7 +101,7 @@ class basis{
 		//批量删除
 		deleteList:'/api/BaseWarehouse/DeleteWarehouseList',
 		//获取默认仓库仓位
-		getDefault:port + '/api/ProductCheckin/GetDefaultWarehouses',
+		getDefault: '/api/ProductCheckin/GetDefaultWarehouses',
 	}
 	//商品管理
 	static CommodityManagement = {
@@ -203,7 +203,7 @@ class basis{
 		//删除
 		delete:'/api/ProductDevice/DeleteProductDevice',
 		//获取最近设置的某个机器的景品类
-		getMaxMatTypeId:port + '/api/ProductDevice/GetMaxMatTypeId',
+		getMaxMatTypeId: '/api/ProductDevice/GetMaxMatTypeId',
 	}
 	//设置
 	static SetUp = {
