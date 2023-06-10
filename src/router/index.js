@@ -600,6 +600,14 @@ const routes = [
         component: () =>
           import('../views/u8/ManUploadU8Data/index.vue'),
       },
+      {
+        path: '/MachineImport',
+        name: 'MachineImport',
+        meta: {
+          title: '机器导入'
+        },
+        component: () => import('../views/maintenance/MachineImport/Page.vue')
+      }
     ],
   },
   {

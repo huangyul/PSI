@@ -1,5 +1,6 @@
 <template>
   <div class="about">
+
     <v-header @open-task-list="openTaskList" />
     <v-sidebar />
     <div class="content-box" :class="{ 'content-collapse': collapse }">

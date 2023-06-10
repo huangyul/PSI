@@ -244,7 +244,6 @@
         //var url = 'http://192.168.66.131:8055/api/UserLoginInfo/CreateUserLogin?userCode='+'10001'+'&userType='+1;
         var port = localStorage.getItem('apiUrl')
         var url =
-          port +
           '/api/UserLoginInfo/CreateUserLogin?userCode=' +
           UserId +
           '&orgId=' +

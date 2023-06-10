@@ -5,63 +5,63 @@ var port = localStorage.getItem('apiUrl')
 //采购
 class procurement {
   //生成编号
-  static GeneratedNumber = port + '/api/UserLoginInfo/GetCurrentCode'
+  static GeneratedNumber =  '/api/UserLoginInfo/GetCurrentCode'
   //查询单个门店的具体信息
-  static GetShopInfo = port + '/api/Shop/GetShopByCode'
+  static GetShopInfo =  '/api/Shop/GetShopByCode'
   //采购计划
   static ProcurementPlan = {
     //查询
-    query: port + '/api/PurchasePlan/GetPurchasePlans',
+    query:  '/api/PurchasePlan/GetPurchasePlans',
     //查询单个信息
-    queryOne: port + '/api/PurchasePlan/GetPurchasePlanByCode',
+    queryOne:  '/api/PurchasePlan/GetPurchasePlanByCode',
     //获取采购计划的商品信息集
-    queryProduct: port + '/api/PurchasePlan/GetPlanProducts',
+    queryProduct:  '/api/PurchasePlan/GetPlanProducts',
     //新增
-    add: port + '/api/PurchasePlan/CreatePurchasePlans',
+    add:  '/api/PurchasePlan/CreatePurchasePlans',
     //更新
-    update: port + '/api/PurchasePlan/UpdatePurchasePlans',
+    update:  '/api/PurchasePlan/UpdatePurchasePlans',
     //删除
-    delete: port + '/api/PurchasePlan/DeletePurchasePlans',
+    delete:  '/api/PurchasePlan/DeletePurchasePlans',
     //导出
-    Export: port + '/api/PurchasePlan/GetPurchasePlansToExcel',
+    Export:  '/api/PurchasePlan/GetPurchasePlansToExcel',
     //导入Excel
-    Import: port + '/api/File/UploadFile',
+    Import:  '/api/File/UploadFile',
     //导入成功之后把Excel保存到数据库
-    ImportSuccess: port + '/api/PurchasePlan/ImporteExcelToPurchasePlans',
+    ImportSuccess:  '/api/PurchasePlan/ImporteExcelToPurchasePlans',
   }
 
   //采购单
   static PurchaseOrder = {
     //查询
-    query: port + '/api/PurchaseOrder/GetPurchaseOrderInfo',
+    query:  '/api/PurchaseOrder/GetPurchaseOrderInfo',
     //查询单个信息
-    queryOne: port + '/api/PurchaseOrder/GetByCodeToEdit',
+    queryOne:  '/api/PurchaseOrder/GetByCodeToEdit',
     //获取采购计划的商品信息集
-    queryProduct: port + '/api​/PurchaseOrder​/GetByCodeToEdit',
+    queryProduct:  '/api​/PurchaseOrder​/GetByCodeToEdit',
     //新增
-    add: port + '/api/PurchaseOrder/CreatePurchaseOrder',
+    add:  '/api/PurchaseOrder/CreatePurchaseOrder',
     //更新
-    update: port + '/api/PurchaseOrder/UpdatePurchaseOrderInfo',
+    update:  '/api/PurchaseOrder/UpdatePurchaseOrderInfo',
     //删除
-    delete: port + '/api/PurchaseOrder/DeletePurchaseOrderInfo',
+    delete:  '/api/PurchaseOrder/DeletePurchaseOrderInfo',
     //下单
-    placeOrder: port + '/api/PurchaseOrder/UpdateOrderStatus',
+    placeOrder:  '/api/PurchaseOrder/UpdateOrderStatus',
     //导出
-    Export: port + '/api/PurchaseOrder/GetPurchaseOrderInfoToExcel',
+    Export:  '/api/PurchaseOrder/GetPurchaseOrderInfoToExcel',
     //明细导出
-    ExportDetail: port + '/api/PurchaseOrderM/GetPurchaseOrderInfoToExcel',
+    ExportDetail:  '/api/PurchaseOrderM/GetPurchaseOrderInfoToExcel',
     //获取该门店下的供应商
-    getSupplier: port + '/api/PurchaseOrder/GetOrderSupplierList',
+    getSupplier:  '/api/PurchaseOrder/GetOrderSupplierList',
     // 获取供应商列表
-    getSupplierList: port + '/api/PurchaseOrder/GetSupplierListByUserCode',
+    getSupplierList:  '/api/PurchaseOrder/GetSupplierListByUserCode',
   }
 
   //采购单
   static PurchaseOrderDetail = {
     //查询
-    query: port + '/api/PurchaseOrderM/GetPurchaseOrderMInfo',
+    query:  '/api/PurchaseOrderM/GetPurchaseOrderMInfo',
     //批量更新状态
-    updateStatus: port + '/api/PurchaseOrderM/UpdatePurchaseOrderMInfo',
+    updateStatus:  '/api/PurchaseOrderM/UpdatePurchaseOrderMInfo',
   }
 }
 

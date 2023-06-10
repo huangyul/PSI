@@ -5,15 +5,15 @@ var port = localStorage.getItem("apiUrl");
 //供应商
 class supplier{
 	//生成编号
-	static GeneratedNumber = port+'/api/UserLoginInfo/GetCurrentCode';
+	static GeneratedNumber = '/api/UserLoginInfo/GetCurrentCode';
 	//发货一览
 	static DeliveryView = {
 		//查询
-		query:port+'/api/PurchaseDelivery/GetPurchaseOrderListInfo',
+		query:'/api/PurchaseDelivery/GetPurchaseOrderListInfo',
 		//查询单个信息
-		queryOne:port+'/api/PurchaseDelivery/GetPurDeliveryInfo',
+		queryOne:'/api/PurchaseDelivery/GetPurDeliveryInfo',
 		//发货保存
-		add:port+'/api/PurchaseDelivery/CreatePurchaseDelivery',
+		add:'/api/PurchaseDelivery/CreatePurchaseDelivery',
 		//导出
 		export:port + '/api/PurchaseDelivery/GetPurchaseOrderListInfoToExcel',
 		//获取打印数据打印
@@ -23,21 +23,21 @@ class supplier{
 	//发货明细
 	static DeliveryDetail = {
 		//查询
-		query:port+'/api/PurchaseDelivery/GetPurchaseDeliveryInfo',
+		query:'/api/PurchaseDelivery/GetPurchaseDeliveryInfo',
 		//撤销发货
-		undo:port+'/api/PurchaseDelivery/CancelDelivery',
+		undo:'/api/PurchaseDelivery/CancelDelivery',
 	}
 	
 	//对账单
 	static Statements = {
 		//查询
-		query:port+'/api/PurchaseDelivery/GetStatementOfAccountList',
+		query:'/api/PurchaseDelivery/GetStatementOfAccountList',
 	}
 	
 	//供应商登录
 	static SupplierLogin = {
 		//登录
-		login:port+'/api/SupplierInfo/SupplierLogin',
+		login:'/api/SupplierInfo/SupplierLogin',
 	}
 	
 	

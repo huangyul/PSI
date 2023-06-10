@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { ElMessage, ElLoading } from 'element-plus'
 import { handleParams } from './helper'
+import router from '../router'
 
 // 获取baseUrl
 const getBaseUrl = () => {
@@ -14,6 +15,26 @@ const getBaseUrl = () => {
     }
     resolve(baseURL)
   })
+}
+
+const reLogin = () => {
+  setTimeout(function () {
+    if (localStorage.getItem('userType') == '3') {
+      router.push('/login')
+    } else {
+      var url = './table.json'
+
+      axios
+        .get(url)
+        .then((res) => {
+          window.location.href = 'http://' + res.data.yunhoutaiUrl
+          window.localStorage.clear() //清除所有key
+        })
+        .catch((err) => {
+          ElMessage.warning({ message: err, type: 'warning' })
+        })
+    }
+  }, 3000)
 }
 
 // 不需要全局loading的接口
@@ -35,9 +56,9 @@ let loading = null
 
 service.interceptors.request.use(
   async (config) => {
-    if (!config.baseURL) {
-      config.baseURL = await getBaseUrl()
-    }
+    // if (!config.baseURL) {
+    //   config.baseURL = await getBaseUrl()
+    // }
     if (!notLoadingUrls.includes(config.url)) {
       loading = ElLoading.service({
         lock: true,
@@ -64,7 +85,7 @@ service.interceptors.request.use(
      * 1. 处理params参数，将所有参数序列化
      * 2. 去掉params中的shopCode参数
      */
-     config = handleParams(config)
+    config = handleParams(config)
 
     return config
   },
@@ -95,7 +116,7 @@ service.interceptors.response.use(
     const { response } = error
     if (!error.response) {
       ElMessage({
-        message: '登录过期，请重新登录',
+        message: response.data.Msg,
         type: 'error',
       })
       setTimeout(function () {
@@ -115,13 +136,20 @@ service.interceptors.response.use(
             })
         }
       }, 3000)
+    } else if (response.status == 401) {
+      ElMessage({
+        message: '登录已过期，请重新登录',
+        type: 'error',
+      })
+      reLogin()
+    } else if (response.status == 400) {
+      ElMessage({
+        message: response.data.message,
+        type: 'error',
+      })
+      return Promise.reject(error.response.data.message)
     } else {
-      if (error.response.status == 400) {
-        ElMessage.error(error.response.data)
-        return Promise.reject()
-      } else {
-        return Promise.reject(error.response.data.message)
-      }
+      return Promise.reject(response.data.message)
     }
   }
 )

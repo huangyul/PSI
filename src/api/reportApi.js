@@ -7,48 +7,48 @@ class report{
 	//采购入库汇总
 	static PurchaseInLibrarySummary = {
 		//查询
-		query:port+'/api/Report/GetPurchaseCheckInReport',
+		query:'/api/Report/GetPurchaseCheckInReport',
 		//导出
-		Export:port+'/api/Report/GetPurchaseCheckInReportToExcel',
+		Export:'/api/Report/GetPurchaseCheckInReportToExcel',
 	}
 	
 	//出库汇总表
 	static OutLibrarySummary = {
 		//查询
-		query:port+'/api/Report/GetStoreCheckOutReport',
+		query:'/api/Report/GetStoreCheckOutReport',
 		//导出
-		Export:port+'/api/Report/GetStoreCheckOutToExcel',
+		Export:'/api/Report/GetStoreCheckOutToExcel',
 	}
 	//调拨单汇总
 	static RequisitionSummary = {
 		//查询
-		query:port+'/api/Report/GetStoreTransferReport',
+		query:'/api/Report/GetStoreTransferReport',
 		//导出
-		Export:port+'/api/Report/GetStoreTransferToExcel',
+		Export:'/api/Report/GetStoreTransferToExcel',
 	}
 	
 	//盘点汇总
 	static CheckSummary = {
 		//查询
-		query:port+'/api/PSIStoreInventory/GetPSI_Store_InventoryListInfo',
+		query:'/api/PSIStoreInventory/GetPSI_Store_InventoryListInfo',
 		//导出
-		Export:port+'/api/PSIStoreInventory/GetPSI_Store_InventoryListToExcelInfo',
+		Export:'/api/PSIStoreInventory/GetPSI_Store_InventoryListToExcelInfo',
 	}
 	
 	//进销存汇总
 	static EntersSellsSaves = {
 		//查询
-		query:port+'/api/PSIStoreProduct/GetProduct_SummaryListInfo',
+		query:'/api/PSIStoreProduct/GetProduct_SummaryListInfo',
 		//导出
-		Export:port+'/api/PSIStoreProduct/GetProduct_SummaryListToExcelInfo',
+		Export:'/api/PSIStoreProduct/GetProduct_SummaryListToExcelInfo',
 	}
 	
 	//在库滞留查询
 	static StockStrandedCheck = {
 		//查询
-		query:port+'/api/PSIStoreProduct/GetDetentionInReservoir',
+		query:'/api/PSIStoreProduct/GetDetentionInReservoir',
 		//导出
-		Export:port+'/api/PSIStoreProduct/GetDetentionInReservoirToExcel',
+		Export:'/api/PSIStoreProduct/GetDetentionInReservoirToExcel',
 	}
 		
 }

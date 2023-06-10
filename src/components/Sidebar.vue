@@ -51,7 +51,34 @@
     setup() {
       //权限菜单
       var items = JSON.parse(localStorage.getItem('leftMenus'))
-      //console.log(items);
+      const machineImport = {
+        "ModuleId": "2323",
+        "ModuleCode": "U8Data",
+        "ModuleName": "维护",
+        "ModuleIndex": "9",
+        "ModuleUrl": "MachineImport",
+        "ParentId": "",
+        "ModuleClass": "",
+        "IsShow": true,
+        "Rights": null,
+        "Subs": [
+          {
+            "ModuleId": "3C1FFC4F-B2BB-43D0-8C85-F3BFE8BB0691",
+            "ModuleCode": "MachineImport",
+            "ModuleName": "机器导入",
+            "ModuleIndex": "1",
+            "ModuleUrl": "MachineImport",
+            "ParentId": "2323",
+            "ModuleClass": "",
+            "IsShow": false,
+            "Rights": {
+            },
+            "Subs": null
+          }
+        ]
+      }
+      items.push(machineImport)
+      console.log(items);
 
       //根据全局变量判断是否显示仓位管理
       if (localStorage.getItem('isShowPosition') == '0') {

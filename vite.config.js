@@ -17,6 +17,15 @@ export default {
   server: {
     host: '0.0.0.0',
     port: 3000,
+    proxy: {
+      '/mock': {
+        target: "http://192.168.16.170:5001",
+        rewrite: (path) => path.replace(/^\/mock/, ''),
+      },
+      '/api': {
+        target: "http://192.168.16.170:5001",
+      }
+    }
   },
   // server: {
   // 	// host: 'localhost', //target host

@@ -69,6 +69,7 @@ axios.interceptors.response.use(
     return response
   },
   (error) => {
+    const {response} = error
     if (!error.response) {
       setTimeout(function () {
         if (localStorage.getItem('userType') == '3') {
@@ -86,15 +87,36 @@ axios.interceptors.response.use(
             })
         }
       }, 3000)
-      console.log(error)
+
       return Promise.reject('VPN或网络异常，请尝试重连VPN或检查网络设置哦')
 
       return Promise.reject('网络不稳定，导致请求超时，请重新登录！')
+    } else if (response.status == 401) {
+   
+      setTimeout(function () {
+        if (localStorage.getItem('userType') == '3') {
+          router.push('/login')
+        } else {
+          var url = './table.json'
+          axios
+            .get(url)
+            .then((res) => {
+              window.location.href = 'http://' + res.data.yunhoutaiUrl
+              window.localStorage.clear() //清除所有key
+            })
+            .catch((err) => {
+              // ElMessage.warning({ message: err, type: 'warning' })
+            })
+        }
+      }, 3000)
+      return Promise.reject(response.data.Msg)
+    } else if (response.status == 400) {
+      return Promise.reject(response.data.message)
     } else {
-      if (!error.response.data) {
+      if (!response.data) {
         return Promise.reject('处理过程超时，请稍后重试')
       }
-      return Promise.reject(error.response.data.message)
+      return Promise.reject(response.data.message)
     }
   }
 )
@@ -108,8 +130,14 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     // 如果离开采购计划单页面，把所有提示关闭
-    if (to.paht != '/ProcurementPlan') {
+    if (to.path != '/ProcurementPlan') {
       store.commit('clearNotification')
+    }
+    // 机器导入页面，只供内部使用
+    // TODO
+    if (to.path == '/MachineImport') {
+      next()
+      return
     }
     if (
       localStorage.getItem('userType') == '3' &&
