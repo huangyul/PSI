@@ -106,11 +106,11 @@ export default {
         .then((res) => {
           this.tableData = res.data.Results
           this.tableData.forEach((row) => {
-            row.Price = row.Price.toFixed(6)
-            row.PriceByTax = row.PriceByTax.toFixed(2)
-            row.Amount = row.Amount.toFixed(2)
-            row.Tax = row.Tax.toFixed(2)
-            row.AmountByTax = row.AmountByTax.toFixed(2)
+            row.Price = row.Price?.toFixed(6) || ""
+            row.PriceByTax = row.PriceByTax?.toFixed(2) || ""
+            row.Amount = row.Amount?.toFixed(2) || ""
+            row.Tax = row.Tax?.toFixed(2) || ""
+            row.AmountByTax = row.AmountByTax?.toFixed(2) || ""
           })
           this.total = res.data.TotalCount
           this.TjValues = res.data.TjValues
@@ -212,10 +212,10 @@ export default {
           sums[index] = '合计'
           return
         } else if (
-          index === 14 ||
           index === 15 ||
           index === 16 ||
-          index === 17
+          index === 17 ||
+          index === 18
         ) {
           const values = data.map((item) => Number(item[column.property]))
           if (!values.every((value) => isNaN(value))) {
@@ -228,29 +228,29 @@ export default {
               }
             }, 0)}`
             if (this.loadReportType == 2) {
-              if (index === 14) {
+              if (index === 15) {
                 sums[index] = ''
               }
-              if (index === 15) {
+              if (index === 16) {
                 sums[index] = this.TjValues[0].toFixed(2)
               }
-              if (index === 16) {
+              if (index === 17) {
                 sums[index] = this.TjValues[1].toFixed(2)
               }
-              if (index === 17) {
+              if (index === 18) {
                 sums[index] = this.TjValues[2].toFixed(2)
               }
             } else {
-              if (index === 14) {
-                sums[index] = this.TjValues[0].toFixed(2)
-              }
               if (index === 15) {
-                sums[index] = this.TjValues[1].toFixed(2)
+                sums[index] = this.TjValues[0]
               }
               if (index === 16) {
-                sums[index] = this.TjValues[2].toFixed(2)
+                sums[index] = this.TjValues[1].toFixed(2)
               }
               if (index === 17) {
+                sums[index] = this.TjValues[2].toFixed(2)
+              }
+              if (index === 18) {
                 sums[index] = this.TjValues[3].toFixed(2)
               }
             }
