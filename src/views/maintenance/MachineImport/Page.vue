@@ -85,7 +85,7 @@
             </el-table-column>
             <el-table-column prop="AmountByTax" label="金额（含税）">
             </el-table-column>
-            <el-table-column prop="ShopCode" label="门店编号">
+            <el-table-column prop="Mast_No" label="门店编号">
             </el-table-column>
             <el-table-column prop="WarehouseCode" label="仓库编号">
             </el-table-column>
