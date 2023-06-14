@@ -118,7 +118,7 @@ export default {
     },
     // 导出模板
     eventExportTemplate() {
-      window.location.href = './export/期初商品导入工具.xlsx'
+      window.location.href = './export/期初商品导入模板.xlsx'
     },
     // 导入
     onItemImport() {
