@@ -55,10 +55,10 @@
       if(["wh001", "wh002"].includes(localStorage.getItem("userCode"))) {
         const machineImport = {
           "ModuleId": "2323",
-          "ModuleCode": "U8Data",
+          "ModuleCode": "Maintain",
           "ModuleName": "维护",
           "ModuleIndex": "9",
-          "ModuleUrl": "MachineImport",
+          "ModuleUrl": "Maintain",
           "ParentId": "",
           "ModuleClass": "",
           "IsShow": true,
@@ -241,6 +241,13 @@
   .sidebarBox .menu .first:hover > .stock,
   .sidebarBox .menu .first.active > .stock {
     background-image: url('../assets/img/inventoryActive.png');
+  }
+  .sidebarBox .menu .first > .Maintain {
+    background-image: url('../assets/img/Maintain.png');
+  }
+  .sidebarBox .menu .first:hover > .Maintain,
+  .sidebarBox .menu .first.active > .Maintain {
+    background-image: url('../assets/img/Maintain_h.png');
   }
   .sidebarBox .menu .first > .scene {
     background-image: url('../assets/img/scene.png');
@@ -541,6 +548,7 @@
   .sidebarBox .second .secondBox > a:hover .ManUploadU8Data {
     background-image: url('../assets/img/ManUploadU8Data_h.png');
   }
+
   .sidebarBox .second .secondBox > a:hover .SetUp {
     background-image: url('../assets/img/SetUp_h.png');
   }
