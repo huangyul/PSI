@@ -149,7 +149,10 @@ service.interceptors.response.use(
         type: 'error',
       })
       return Promise.reject(error.response.data.message)
-    } else {
+    } else if(response.status == 413) {
+      return Promise.reject('导入文件过大')
+    }
+     else {
       return Promise.reject(response.data.message)
     }
   }

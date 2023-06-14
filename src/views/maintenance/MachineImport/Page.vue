@@ -146,7 +146,7 @@
           <div class="import-flex flex-items-start">
             <div class="import-label">备注：</div>
             <div class="import-item">
-              <el-input v-model="remark" :rows="3" resize="none" :maxlength="180" type="textarea"></el-input>
+              <el-input v-model="remark" :rows="3" resize="none" show-word-limit :maxlength="128" type="textarea"></el-input>
             </div>
           </div>
           <div class="func">

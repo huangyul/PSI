@@ -106,14 +106,16 @@ export default {
           this.importText = res.Msg
         }
       } catch (err) {
-        this.fileList = []
-        return
+        this.importStatus = 'error'
+        this.importText = err
       } finally {
         setTimeout(() => {
           this.isShow = false
+          this.fileList = []
           this.isImportDialog = false
           this.handleSearch()
         }, 5000)
+        
       }
     },
     // 导出模板
