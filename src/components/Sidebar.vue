@@ -1,12 +1,13 @@
 <template>
   <div class="sidebar">
     <div class="sidebarBox">
-      <div class="menu">
+      <div 
+        class="menu"
+        @mouseleave="onMouseleave">
         <div
           v-for="item in items"
           :key="item.ModuleUrl"
           @mouseenter="onMouseenter(item)"
-          @mouseleave="onMouseleave"
         >
           <div class="first">
             <div :class="item.ModuleUrl" class="firstIcon"></div>
@@ -51,33 +52,35 @@
     setup() {
       //权限菜单
       var items = JSON.parse(localStorage.getItem('leftMenus'))
-      const machineImport = {
-        "ModuleId": "2323",
-        "ModuleCode": "U8Data",
-        "ModuleName": "维护",
-        "ModuleIndex": "9",
-        "ModuleUrl": "MachineImport",
-        "ParentId": "",
-        "ModuleClass": "",
-        "IsShow": true,
-        "Rights": null,
-        "Subs": [
-          {
-            "ModuleId": "3C1FFC4F-B2BB-43D0-8C85-F3BFE8BB0691",
-            "ModuleCode": "MachineImport",
-            "ModuleName": "机器导入",
-            "ModuleIndex": "1",
-            "ModuleUrl": "MachineImport",
-            "ParentId": "2323",
-            "ModuleClass": "",
-            "IsShow": false,
-            "Rights": {
-            },
-            "Subs": null
-          }
-        ]
+      if(["wh001", "wh002"].includes(localStorage.getItem("userCode"))) {
+        const machineImport = {
+          "ModuleId": "2323",
+          "ModuleCode": "U8Data",
+          "ModuleName": "维护",
+          "ModuleIndex": "9",
+          "ModuleUrl": "MachineImport",
+          "ParentId": "",
+          "ModuleClass": "",
+          "IsShow": true,
+          "Rights": null,
+          "Subs": [
+            {
+              "ModuleId": "3C1FFC4F-B2BB-43D0-8C85-F3BFE8BB0691",
+              "ModuleCode": "MachineImport",
+              "ModuleName": "机器导入",
+              "ModuleIndex": "1",
+              "ModuleUrl": "MachineImport",
+              "ParentId": "2323",
+              "ModuleClass": "",
+              "IsShow": false,
+              "Rights": {
+              },
+              "Subs": null
+            }
+          ]
+        }
+        items.push(machineImport)
       }
-      items.push(machineImport)
       console.log(items);
 
       //根据全局变量判断是否显示仓位管理
@@ -122,16 +125,22 @@
           secondMenu.value = item.Subs
           secondTitle.value = item.ModuleName
         }
+        clearTimeout(timer)
         isSecondShow.value = true
       }
+      
+      let timer = null
 
       // 一级菜单鼠标移出
       const onMouseleave = () => {
-        isSecondShow.value = false
+        timer = setTimeout(() => {
+          isSecondShow.value = false          
+        }, 200)
       }
 
       // 菜单移入
       const onMouseenterMenu = () => {
+        clearTimeout(timer)
         isSecondShow.value = true
       }
 
@@ -398,6 +407,9 @@
   .sidebarBox .second .secondBox > a .PurchaseOrder {
     background-image: url('../assets/img/PurchaseOrder.png');
   }
+  .sidebarBox .second .secondBox > a .MachineImport {
+    background-image: url('../assets/img/MachineImport.png');
+  }
   .sidebarBox .second .secondBox > a .PurchaseOrderDetail {
     background-image: url('../assets/img/PurchaseOrderDetail.png');
   }
@@ -510,6 +522,9 @@
 
   .sidebarBox .second .secondBox > a:hover .CategoryManagement {
     background-image: url('../assets/img/CategoryManagement_h.png');
+  }
+  .sidebarBox .second .secondBox > a:hover .MachineImport {
+    background-image: url('../assets/img/MachineImport_h.png');
   }
   .sidebarBox .second .secondBox > a:hover .WarehouseManagement {
     background-image: url('../assets/img/WarehouseManagement_h.png');

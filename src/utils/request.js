@@ -43,6 +43,7 @@ const notLoadingUrls = [
   '/api/Item/ImportItemAndPhoto',
   '/api/Item/UpdateItemUploadInfo',
   '/api/Item/GetItemUploadFileList',
+  '/api/BaseDevice/Import'
 ]
 const service = axios.create({
   // process.env.NODE_ENV === 'development' 来判断是否开发环境
