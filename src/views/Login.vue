@@ -58,9 +58,11 @@
   import identify from './supplier/SupplierLogin/Identify.vue'
   import { processExpression } from '@vue/compiler-core'
   import dayjs from 'dayjs'
+  import { ElLoading } from 'element-plus'
 
   export default {
     setup() {
+      let loading
       onMounted(() => {
         //localStorage.removeItem("Token");
         window.localStorage.clear() //清除所有key
@@ -234,6 +236,11 @@
       }
       //云后台过来直接登录
       const submitForm = (OrgId, UserId) => {
+        loading = ElLoading.service({
+          lock: true,
+          text: '登录中...',
+          background: 'rgba(0, 0, 0, 0.7)',
+        })
         //console.log(query.value);return;
         //var orgId = query.value.OrgId;
         // var OrgId = '4U4SZ1JN9Z7Z153YYXAF6KWM512Y75LLSD1FHD';
@@ -332,9 +339,19 @@
                       .catch((err) => {
                         ElMessage.error(err)
                       })
+                      .finally(() => {
+                        if(loading) {
+                          loading.close()
+                        }
+                      })
                   })
                   .catch((err) => {
                     ElMessage.error(err)
+                  })
+                  .finally(() => {
+                    if(loading) {
+                      loading.close()
+                    }
                   })
                 // TODO 是否需要token校验，如果不需要直接这样使用，如果需要则启动下面注释的代码块
                 // axios
@@ -445,6 +462,11 @@
               .catch((err) => {
                 ElMessage.error(err)
               })
+              .finally(() => {
+                if(loading) {
+                  loading.close()
+                }
+              })
 
             // var UserInfoUrl = port + '/api/UserLoginInfo/GetUserInfo';
             // axios.get(UserInfoUrl).then(res => {
@@ -470,6 +492,11 @@
           })
           .catch((err) => {
             ElMessage.error(err)
+          })
+          .finally(() => {
+            if(loading) {
+              loading.close()
+            }
           })
       }
 
