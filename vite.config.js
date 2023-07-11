@@ -17,11 +17,11 @@ export default {
   server: {
     host: '0.0.0.0',
     port: 3000,
-    proxy: {
-      '/api': {
-        target: "http://192.168.16.170:5001",
-      }
-    }
+    // proxy: {
+    //   '/api': {
+    //     target: "http://192.168.16.170:5001",
+    //   }
+    // }
   },
   // server: {
   // 	// host: 'localhost', //target host
